@@ -1,0 +1,1353 @@
+@charset "UTF-8";
+/*
+Theme Name: Circuito AABB Esports
+Theme URI:
+Author: Douglas Henrique
+Author URI:
+Description: Tema desenvolvido para o site Circuito AABB de Esportes.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+*/
+
+html{
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+body{
+    /*background-image: url(./img/fundo-top-novo.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: #181818;
+    background-position: center top;
+    height: 100%;*/
+}
+li{
+    list-style: none;
+}
+a, p, li, h1, h2, h3{
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.menu_logo{
+    text-align: center;
+}
+
+.menu_logo img{
+    max-width: 80px;
+}
+
+.menu li{
+    display: inline-flex;
+    text-align: center;
+}
+.menu a{
+    color: #fff;
+    font-size: 18px;
+    padding: 15px 30px;
+}
+.menu a p {
+    font-family: 'Rajdhani', sans-serif;
+}
+.item-menu-login a, .item-menu-conta a {
+    color: #fff;
+    background: #0D4E86;
+    border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif;
+    min-width: 150px;
+}
+
+
+.menu ul{
+    text-align: right;
+    padding: 0px;
+    margin-top: 13px;
+}
+.menu-item img {
+    width: 30px;
+}
+.item-menu-login img, .item-menu-conta img {
+    width: 20px;
+}
+
+h1.titulo-jogos {
+    color: #fff;
+    text-align: center;
+    font-size: 40px;
+}
+
+/* Provisório */
+header{
+    height: 151px;
+}
+.admin-bar header{
+    height: 68px;
+}
+
+/*
+.home header{
+    height: 100%;
+}*/
+
+/*     */
+.menu {
+    background-color: #000;
+    padding: 10px;
+}
+
+.container-custom{
+    padding: 0px;
+}
+
+#jogos{
+    padding: 50px 15px;
+    background-image: url(./img/fundo-jogos.jpg);
+    background-size: cover;
+}
+
+.col-titulo-jogos, .col-texto-jogos {
+    width: 100%;
+    margin-bottom: 80px;
+}
+
+p.texto-jogos {
+    text-align: center;
+    font-size: 18px;
+    color: #e1e1e1;
+    padding: 20px 100px;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+.img-jogo img {
+    max-width: 65%;
+    margin: 0 auto;
+
+}
+/*.slick-center .img-jogo img{
+    opacity: 1;
+    max-width: 150px;
+    margin-left: 55px;
+}*/
+
+.img-jogo{
+    text-align: center;    
+}
+
+.texto-jogo{
+    display: none;
+}
+
+.slick-center .texto-jogo {
+    display: block;
+    margin-top: 7px;
+    max-width: 292px;
+    background-color: #fff;
+    height: 191px;
+    margin-left: 190px;
+    -webkit-transform: skew(-6deg);
+    -ms-transform: skew(-6deg);
+    transform: skew(-6deg);
+}
+h3.titulo-jogo {
+    text-align: center;
+    font-size: 20px;
+    padding-top: 8px;
+}
+p.resumo-jogo {
+    font-size: 11px;
+    text-align: justify;
+    padding: 10px 15px;
+    color: #181818;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 0px;
+}
+.botao-jogo {
+    color: #181818;
+    border: 3px solid #181818;
+    padding: 5px 25px;
+    font-size: 13px;
+    text-align: right;
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+}
+
+#sobre{
+    background-image: url(./img/Sobre-o-Circuito.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 60px 20px;
+
+}
+
+.bloco-texto-sobre {
+    background-color: #e1e1e1;
+    padding: 40px 30px;
+}
+
+.titulo-sobre {
+    text-align: center;
+}
+.texto-sobre{
+    font-family: 'Roboto', sans-serif;
+    text-align: justify;
+}
+a.bnt-sobre {
+    float: right;
+    color: #181818;
+    border: 2px solid #181818;
+    padding: 5px 15px;
+}
+
+img.img-sobre {
+    max-width: 350px;
+    border: 10px solid #181818;
+}
+
+#campeonatos{
+   background-image: url(./img/fundo-campeonatos-edit.jpg);
+    background-size: contain;
+    background-position: 0px -107px;
+    padding: 70px 20px;
+}
+.col-titulo-campeonatos{
+    margin-bottom: 100px;
+}
+.titulo-proximos-campeonatos{
+    color: #fff;
+    text-align: center;
+    font-size: 40px;
+}
+.div-border-campeonatos {
+    width: 232px;
+    height: 3px;
+    background: #0D4E86;
+    margin: 0 auto;
+}
+.img-campeonato img,.img-evento img {
+    max-width: 100%;
+}
+
+.box-campeonato {
+    padding: 20px;
+    background-color: #e1e1e1;
+    text-align: center;
+    border: 4px solid #c4c2be;
+}
+
+.img-campeonato img {
+    max-width: 300px;
+    /*border: 4px solid #c4c2be;*/
+    margin-bottom: 15px;
+}
+
+.dados-campeonato {
+    text-align: left;
+    font-size: 16px;
+}
+.dados-campeonato p {
+    font-family: 'Roboto', sans-serif;
+}
+
+.box-bnt-campeonato{
+    text-align: right;
+}
+
+a.bnt-inscrevase-campeonato {
+    color: #181818;
+    border: solid 2px #181818;
+    padding: 5px 20px;
+}
+.container-single, .container-page{
+    padding: 0px;
+}
+.crumbs{
+   padding: 40px;
+}
+
+.title-single {
+    text-align: center;
+    color: #E5E5E5;
+}
+
+.img-single-campeonato {
+    max-width: 100%;
+    border: 4px solid #c4c2be;
+}
+
+.article {
+    background-color: #0D0C0C;
+    padding: 60px;
+}
+.article p{
+    color: #E5E5E5;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+}
+.article p a{
+    letter-spacing: 2px;
+}
+.content-todos-campeonatos{
+    /*background-color: #f1f1f1;*/
+}
+.content-todos-campeonatos p{
+    color: #181818;
+}
+.texto-single-campeonato p{
+    font-family: 'Roboto', sans-serif;
+    text-align: justify;
+    color: #aaa;
+}
+.dados-single-campeonato p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    color: #cacaca;
+}
+
+.bnt-single-regulamento {
+    color: #fff;
+    border: 3px solid #fff;
+    padding: 5px 15px;
+    float: left;
+}
+.bnt-single-regulamento:hover, .bnt-single-inscrevase:hover{
+    text-decoration: none;
+    color: #ccc;
+}
+.bnt-single-inscrevase {
+    color: #fff;
+    border: 3px solid #fff;
+    padding: 5px 15px;
+    float: right;
+}
+
+.row-bnt-todos-campeonatos{
+    margin-top: 40px;
+
+}
+
+.col-bnt-todos-campeonatos{
+    text-align: center;
+}
+
+.todos-campeonatos {
+    padding: 15px 20px;
+    background-color: #e1e1e1;
+    color: #181818;
+}
+
+.container-page .article{
+    padding: 60px 15px;
+}
+
+.title-single-jogos {
+    text-align: center;
+    color: #fff;
+}
+
+.crumbs-single-jogos {
+    background-color: #fff;
+    padding: 70px 40px;
+    height: 196px;
+}
+
+.article-single-jogos{
+    border-top: 1px solid #e9e9e9;
+    background-color: #181818;
+    padding: 60px 15px;
+}
+
+.texto-single-jogos p {
+    font-family: 'Roboto', sans-serif;
+    text-align: justify;
+    color: #bbb;
+}
+
+.article-single-campeonato{
+    padding: 60px 0px;
+}
+
+.eventos-home {
+    background-color: #181818;
+    padding: 70px 20px;
+}
+
+.box-evento {
+    background: #21216a;
+    padding: 20px;
+    /*height: 410px;*/
+    margin-top: 15px;
+}
+.img-evento {
+    text-align: center;
+}
+
+.img-campeonato img, .img-evento img {
+    border: 4px solid #e1e1e1;
+}
+.titulo-evento {
+    color: #e1e1e1;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.bnt-ver-evento {
+    color: #e1e1e1;
+   
+}
+
+.resumo-evento {
+    color: #e1e1e1;
+    font-family: 'Roboto', sans-serif;
+    text-align: justify;
+    font-size: 13px;
+}
+
+.box-bnt-evento {
+    text-align: right;
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+}
+
+.todos-eventos {
+    padding: 15px 20px;
+    color: #fff;
+    border: 4px solid #005ca4;
+}
+
+.col-bnt-todos-eventos {
+    text-align: center;
+}
+
+.row-bnt-todos-eventos {
+    margin-top: 40px;
+}
+
+
+.titulo-aabb, .titulo-circuitos {
+    text-align: center;
+    color: #0D4E86;
+    font-size: 24px;
+    font-weight: 600;
+}
+.texto-aabb{
+    text-align: center;
+    font-size: 18px;
+    color: #E5E5E5;
+}
+.texto-circuitos {
+    color: #E5E5E5;
+    font-family: 'Rajdhani', sans-serif;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 30px;
+}
+.box-texto-aabb {
+    padding: 30px;
+    background: #0D0C0C;
+    min-height: 268px;
+    margin-bottom: 30px;
+}
+
+.box-texto-circuitos {
+    padding: 30px 10px;
+    background: #181818;
+    min-height: 280px;
+    margin-bottom: 30px;
+}
+.quem-somos-bloco-2{
+    padding: 60px 15px;
+}
+
+.box-img-texto-circuitos {
+    text-align: center;
+}
+.box-img-texto-circuitos img {
+    max-width: 100px;
+    margin-bottom
+}
+.titulo-quem-somos-2 {
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+    margin-bottom: 45px;
+}
+.modal-body-custom{
+    text-align: center;
+}
+.bnt-register, .bnt-login{
+    color: #181818;
+    border: 3px solid #181818;
+    padding: 5px 15px;
+}
+
+.box-texto-register {
+    padding: 30px;
+}
+.texto-register {
+    font-size: 21px;
+}
+
+#user-registration-form-96 {
+    background: #fff;
+}
+
+#user-registration-form-96 #user_pass_field label {
+    width: 100%;
+}
+
+#user-registration-form-96 .password-input-group {
+    width: 100%;
+}
+
+#user_chave_func_bb_field, #chave_family_bb_field, #user_matricula_field, #user_cidade_aabb_field, #familiar_parentesco_field{
+    display: none;
+}
+#user_cidade_aabb_field {
+    /*margin-top: 30px;*/
+}
+a:hover{
+    text-decoration: none;
+}
+.item-menu-conta{
+    display: none !important;
+}
+.item-menu-login {
+    position: relative;
+    top: 12px;
+}
+.logged-in .item-menu-conta {
+    display: inline-flex !important;
+    position: relative;
+    top: 12px;
+}
+.logged-in .item-menu-login{
+    display: none;
+}
+
+
+.box-jogo img {
+    width: 100%;
+}
+
+.jogos-info {
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.table th, .table thead th{
+    border-color: inherit;
+}
+.table thead th{
+    border-bottom: none;
+}
+
+.table-campeonatos .table th{
+    padding: 35px 20px 10px !important;
+    border: none;
+}
+.table-campeonatos .table td{
+    padding: 35px 20px !important;
+    border: none;
+}
+
+.table thead {
+    background-color: #0D0C0C;
+    color: #0D4E86;
+    border: #0D0C0C;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.table {
+    background-color: #313131;
+}
+
+.table-campeonatos .table td{
+    border-bottom: 1px solid #5E5D5D;
+    color: #848282;
+    background: #141414;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.table .bnt-inscrevase-campeonato{
+    padding: 10px 20px;
+    color: #fff;
+    background: #0D4E86;
+    border-radius: 4px;
+}
+
+.icon-menu{
+    display: none;
+}
+
+.icon-menu img{
+    width: 45px;
+    float: right;
+    
+}
+
+.menu-responsive {
+    width: 240px;
+    height: 100%;
+    float: right;
+    margin-top: 68px;
+}
+.menu-responsive li {
+    margin-top: 20px;
+    display: list-item;
+}
+
+div#multiCollapseExample1 {
+    position: fixed;
+    z-index: 9;
+    right: 0;
+}
+
+.col-inscrevase {
+    min-width: 146px !important;
+}
+
+section#contato {
+    padding: 60px 15px;
+    background: #000;
+}
+
+.wpcf7-form input[type="text"], .wpcf7-form input[type="email"], .wpcf7-form textarea {
+    padding: 7px 15px;
+    width: 100%;
+}
+
+input.wpcf7-form-control.wpcf7-submit {
+    float: right;
+    background-color: #0D4E86;
+    padding: 5px 25px;
+    border: none;
+    width: 100%;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 18px;
+}
+.footer-contact img {
+    width: 120px;
+}
+.footer-contact {
+    text-align: center;
+    color: #fff;
+}
+#parceiros {
+    background-image: url(./img/fundo-parceitos-edit.jpg);
+    background-size: cover;
+    background-position: 0px 0px;
+    padding: 110px 50px;
+}
+
+.bloco-publicidade img {
+    width: 100%;
+}
+
+.titulo-evento h3 {
+    font-size: 22px;
+}
+
+.login h1 a {
+    background-image: url(./img/logo-nova2.png);
+    background-size: 150px;
+    height: 143px;
+    width: 140px;
+    pointer-events: none;
+}
+
+body.login form{
+    background: #002950bd;
+    border: 1px solid #005ca4;
+}
+#loginform label {
+    color: #f8e100;
+}
+.login #nav a:first-child {
+   
+    background: #fe0;
+    padding: 5px 15px;
+    color: #000;
+}
+
+.login #nav {
+    color: transparent;
+}
+.login #nav a {
+    color: #fff;
+}
+.login #backtoblog a {
+    color: #fff;
+}
+
+body.login {
+    background-image: url(./img/banner-novo-sem-logo.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: #181818;
+    background-position: center top;
+    height: 100%;
+}
+
+.table-campeonatos-user {
+    background: #fff;
+    padding: 40px;
+    margin-bottom: -30px;
+}
+#lostpasswordform label {
+    color: #fbef08;
+} 
+.login-action-lostpassword #nav{
+    display: none !important;
+}
+
+.text-lowercase {
+    text-transform: lowercase;
+}
+.table-campeonatos label {
+    color: #fff;
+}
+.wpcf7-response-output {
+    color: #fff;
+}
+
+#page-cadastro, #page-meus-times {
+    background: #211f1f;
+    padding: 50px 0px;
+}
+.titulo-cadastro {
+    color: #fff;
+}
+
+.box-cadastro {
+    padding: 70px 30px;
+    background: #002950;
+}
+
+.col-mensagem-erro{
+    margin-top: 50px;
+}
+.mensagem-erro{
+    display: none;
+}
+.botao-enviar-cadastro, .botao-atualizar-cadastro {
+    background: #f8e100;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
+.form-cadastro label, .form-atualizar-dados label {
+    color: #ddd;
+}
+.form-cadastro .box-cidade-aabb{
+    display: none;
+}
+.form-cadastro .box-matricula-funcionario{
+    display: none;
+}
+
+.box-sidebar {
+    background: #111;
+    padding: 70px 30px;
+}
+.nome-usuario {
+    color: #999;
+    font-size: 26px;
+    text-align: center;
+    margin-top: 20px;
+}
+.img-user-conta {
+    max-width: 130px;
+    border-radius: 5%;
+}
+.box-img-user {
+    text-align: center;
+}
+.bnt-sidebar {
+    display: table;
+    width: 200px;
+    background: #f8e100;
+    margin: 10px auto;
+    text-align: center;
+    padding: 10px 0px;
+    color: #000;
+}
+
+#page-meus-times .title-page {
+    color: #fff;
+}
+
+.box-card-img {
+    width: 25%;
+    float: left;
+    padding-left: 20px;
+}
+.card-times {
+    background: #313131;
+    border: 1px solid #4c4b4b;
+    margin: 0 5px;
+}
+.card-times .card-body{
+    /*width: calc(100% - 150px);*/
+    width: 75%;
+    float: right;
+}
+.card-title {
+    color: #fff;
+    text-align: left;
+    font-size: 1.15rem;
+}
+.card-text {
+    color: #fff;
+    text-align: left;
+    margin-bottom: 0px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    border-bottom: 1px dashed #515b63;
+    letter-spacing: 1px;
+}
+.card-img-top {
+    margin-top: 30%;
+}
+.bnt-editar-time {
+    color: #111;
+    background: #f8e100;
+    border: none;
+    padding: 2px 17px;
+    float: right;
+}
+.card-footer {
+    clear: both;
+    background: #2F2F2F;
+}
+.btn-warning {
+    background: #f8e100;
+    border-radius: 0;
+}
+.btn-success, .btn-danger{
+    border-radius: 0;
+}
+.card-deck {
+    padding: 0px !important;
+    margin-bottom: 15px;
+}
+.row.row-acoes-convite {
+    margin-top: 7px;
+}
+.img-adcicionar-time {
+    width: 117px !important;
+    height: auto !important;
+    padding: 15px;
+}
+
+.row-listagem-times-inscricao{
+    padding: 0px 15px;
+}
+
+.row-listagem-membros-inscricao{
+    display: none;
+}
+.nome-time-inscricao {
+    width: 100%;
+}
+
+.row-botoes-inscricao {
+    margin: 0;
+}
+
+.row-social{
+    margin-top: 35px;
+}
+
+.img-social {
+    width: 23px !important;
+    margin: 0px 7px;
+}
+
+/* Gestão de Campeonatos */
+.box-crumbs {
+    background-color: #09263d;
+}
+
+.box-page {
+    border-top: 1px solid #e9e9e9;
+    background-color: #181818;
+}
+ 
+.input-resultados-jogos {
+    width: 100%;
+    margin-top: 5px;
+    border: solid 1px #9a9a9a;
+    background: #fff;
+    padding: 5px 10px;
+    text-align: center;
+}
+
+.nav-tabs .nav-link {
+    background: #2f2e2e;
+    border-radius: 0px;
+    color: #fff;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-left: 1px solid #272727;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #585858;
+    height: 44px;
+    margin-top: -2px;
+    padding-top: 10px;
+    border: none;
+}
+.times-do-campeonato .card-deck {
+    margin: 0px;
+    margin-bottom: 15px;
+}
+.row-inscritos-campeonato {
+    margin: 15px -5px;
+}
+.times-do-campeonato .card-title {
+    color: #fff;
+    text-align: left;
+    font-size: 0.95rem;
+}
+.img-time-tabela {
+    width: 100%;
+}
+.times {
+    text-align: center;
+    font-size: 15px;
+}
+.texto-jogo-tabela, .icon-x {
+    margin-top: 12px;
+    margin-bottom: 0px;
+    font-family: 'Roboto' ,sans-serif;
+}
+.btn-salvar-resultado {
+    background: #12406b;
+    padding: 10px 30px;
+    color: #fff;
+}
+.col-btn-salvar-resultado {
+    padding: 20px;
+}
+.row-dados-single-campeonato {
+    padding-top: 60px;
+}
+.texto-single-campeonato li{
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    color: #cacaca;
+    list-style: circle;
+}
+.texto-single-campeonato {
+    background: #313131;
+    padding: 20px;
+}
+.btn-erro-time-ja-inscrito {
+    color: #545454;
+    border: 3px solid #545454;
+    padding: 5px 15px;
+    float: right;
+    cursor: not-allowed;
+}
+#modal-membros-time {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 100px;
+    left: 0;
+    background: #000000ad;
+    z-index: 9;
+}
+.btn-close {
+    position: absolute;
+    right: 25px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 9;
+}
+
+.gestao-fases {
+    background: #313131;
+    padding: 40px;
+    margin-top: 20px;
+}
+.titulo-fase {
+    color: #f8e100;
+}
+.status-fase {
+    color: #cacaca;
+}
+.row-gestao-fase {
+    padding: 20px 0px;
+    border-bottom: 1px solid #444444;
+}
+.label-data-fase {
+    margin-bottom: 0px;
+    margin-top: 10px;
+    color: #cacaca;
+    font-family: 'Roboto', sans-serif;
+}
+.col.col-bnt-salvar-datas {
+    text-align: center;
+}
+#salvar-datas-fases {
+    margin-top: 20px;
+    background: #f8e100;
+    border: none;
+    padding: 10px 25px;
+}
+/* Fim Gestão de Campeonatos */
+
+.btn-logout {
+    width: 200px;
+    display: table;
+    background: red;
+    color: #fff;
+    padding: 10px;
+    margin: 35px auto;
+    text-align: center;
+}
+
+.btn-confirmar-resultado {
+    background: #28a745;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px 25px;
+}
+.btn-confirmar-resultado:hover {
+    color: #fff;    
+}
+.btn-contestar-resultado {
+    background: #dc3545;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px 25px;
+    border: none;
+}
+.col-btn-todos-jogos {
+    text-align: center;
+    margin-top: 55px;
+    margin-bottom: 30px;
+}
+
+.btn-todos-jogos {
+    color: #fff;
+    padding: 14px 47px;
+    background: #0D4E86;
+    border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif;
+    width: 150px;
+}
+#destaque-home {
+    background-image: url(./img/lissandra-otm.jpg);
+    background-size: cover;
+    background-color: #181818;
+    background-position: center top;
+    padding: 150px 0px;
+}
+.texto-amarelo {
+    color: #F8E100;
+    font-size: 15px;
+}
+.titulo-destaque {
+    color: #fff;
+    font-size: 46px;
+    font-weight: 600;
+}
+.texto-destaque {
+    color: #fff;
+    font-size: 20px;
+    margin-top: 15px;
+}
+.btn-azul {
+    color: #fff;
+    padding: 12px 0px;
+    background: #0D4E86;
+    border: 1px solid #0D4E86;
+    border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif;
+    width: 150px;
+    display: block;
+    text-align: center;
+}
+.btn-azul:hover {
+    border: 1px solid #fff;
+    background: transparent;
+    color: #fff;
+}
+.btn-transparent {
+    color: #fff;
+    padding: 12px 0px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif;
+    width: 150px;
+    display: block;
+    text-align: center;
+}
+.btn-transparent:hover {
+    border: 1px solid #0D4E86;
+    background: #0D4E86;
+    color: #fff;
+}
+.bnt-inscrevase-destaque {
+    margin: 0px 15px;
+}
+.row-btns-destaque {
+    margin-top: 50px;
+}
+.div-border-jogos {
+    width: 60px;
+    height: 3px;
+    background: #0D4E86;
+    margin: 0 auto;
+}
+.box-campeonatos {
+    background: #0D0C0C;
+    padding: 50px;
+}
+.filtro-campeonatos {
+    background: transparent;
+    color: #848282;
+    border-color: #848282;
+    font-family: 'Rajdhani', sans-serif;
+}
+#nome-campeonato::placeholder {
+    color: #424040;
+}
+#btn-busca {
+    background: #0D4E86;
+    padding: 0px 25px;
+}
+.box-links-paginacao {
+    margin: 0 auto;
+}
+.link-paginacao {
+    color: #848282;
+    padding: 5px;
+}
+.link-paginacao:hover {
+    color: #fff;
+}
+.link-paginacao.current {
+    color: #0D4E86;
+    font-weight: 800;
+}
+.div-border-parceiros {
+    width: 77px;
+    height: 3px;
+    background: #0D4E86;
+    margin: 0 auto;
+}
+.row-direitos {
+    margin-top: 50px;
+}
+.direitos {
+    width: 100%;
+    color: #848282;
+    font-size: 14px;
+}
+.row-ver-todos-tabela {
+    margin-top: 50px;
+}
+#contet-page-jogos {
+    background-image: url(./img/fundo-page-jogos-edit.jpg);
+    background-size: cover;
+    background-position: center top;
+}
+.row-filtros-jogos {
+    margin-bottom: 50px;
+}
+#content-page-campeonatos {
+    background-image: url(./img/fundo-page-campeonatos-edit.jpg);
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0px;
+}
+#content-1-page-quem-somos {
+    background-image: url(./img/fundo-parceitos-edit.jpg);
+    background-size: cover;
+    background-position: center top;
+    padding: 150px 50px;
+}
+.box-logo-aabb {
+    width: 227px;
+    margin: -90px auto 40px;
+}
+.box-logo-aabb-esports {
+    width: 160px;
+    margin: -90px auto 40px;
+}
+.logo-aabb {
+    width: 100%;
+}
+#content-2-page-quem-somos {
+    background: #000;
+}
+.btn-erro-criar-time {
+    color: #fff;
+    border: 3px solid #fff;
+    padding: 5px 15px;
+    float: right;
+}
+.box-interno-contato {
+    background: #141414;
+    padding: 60px;
+    height: 100%;
+}
+.mensagem-contato {
+    color: #848282;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+.box-interno-contato label {
+    color: #848282;
+    font-size: 18px;
+    font-family: 'Rajdhani', sans-serif;
+}
+.input-form-contato {
+    background: transparent;
+    border: 1px solid #848282;
+    border-radius: 4px;
+    color: #0D4E86;
+}
+
+.input-form-contato:focus {
+    border-color: #0D4E86;
+    outline: none;
+}
+.title-single-contato {
+    text-align: center;
+    color: #E5E5E5;
+    
+}
+#contet-page-contato {
+    background-image: url(./img/fundo-page-jogos-edit.jpg);
+    background-size: cover;
+    background-position: 0px -411px;
+    padding: 50px 0px;
+}
+.img-parceiros {
+    max-width: 400px
+    /*filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);*/
+}
+/*
+.img-parceiros:hover {
+    filter: grayscale(0%);
+    -webkit-filter: grayscale(0%);
+    -moz-filter: grayscale(0%);
+    -ms-filter: grayscale(0%);
+    -o-filter: grayscale(0%);
+}*/
+
+.table-inscritos-individual td {
+    color: #fff;
+}
+
+@media only screen and (max-width: 1000px) {
+    .no-responsive{
+        display: none;
+    }
+    .icon-menu{
+        display: block;
+    }
+
+    .logged-in .menu-responsive .item-menu-conta {
+        display: list-item !important;
+        text-align: center;
+    }
+    .table .bnt-inscrevase-campeonato {
+    	padding: 5px 5px;
+	}	
+
+}
+@media only screen and (min-width: 1720px) {
+	/*.menu_logo img {
+    	max-width: 80px;
+	}
+	.menu a {
+   		font-size: 25px;
+    }*/
+    /*.menu ul {
+	    margin-top: 40px;
+	}*/
+	.resumo-evento {
+	    font-size: 15px;
+	}
+
+	.box-evento {
+	   height: 380px;
+	}
+    .img-campeonato img, .img-evento img {
+        max-width: 400px;
+    }
+	.admin-bar header {
+	    height: 108px;
+	}
+
+}
+
+@media only screen and (max-width: 1485px) {
+    .box-texto-aabb {
+        min-height: 330px;
+        
+    }
+}
+
+@media only screen and (max-width: 1134px){
+    .box-texto-aabb {
+        min-height: 330px;
+        
+    }
+}
+
+@media screen and (min-width: 990px) and (max-width: 1133px) {
+    .box-texto-aabb {
+        min-height: 390px;
+        
+    }
+}
+
+@media screen and (max-width: 989px){
+    .box-texto-aabb {
+        min-height: auto;
+        
+    }
+}
+.criar-time-card{
+    width: 100%;
+}
+.criar-time-card img{
+    width: 150px;
+    height: 150px;
+    margin-top: 0;
+
+}
+.time_imagem_exibe{
+    background-color: #092036;
+    padding: 3%;
+}
+.time_imagem_exibe img{
+    max-width: 15vw;
+}
