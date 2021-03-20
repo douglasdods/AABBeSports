@@ -81,7 +81,7 @@
 		    			</div>
 		    		</div>
 		    		<div class="row row-direitos">
-		    			<p class="direitos">Todos os direitos reservados AABB ESPORTS 2021</p>
+		    			<p class="direitos">Todos os direitos reservados AABB ESPORTS 2021.</p>
 		    		</div>
 		    	</div>
     			
