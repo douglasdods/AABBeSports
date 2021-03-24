@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"  />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="profile" href="https://gmpg.org/xfn/11" />
     <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
