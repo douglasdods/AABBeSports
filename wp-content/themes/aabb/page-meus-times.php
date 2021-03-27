@@ -105,7 +105,7 @@ if(is_user_logged_in() /* &&  ( $user_id == 1 || $user_id == 17  ||  $user_id ==
 	                <div class="form-row">
 	                    <label><strong>Participantes</strong></label>
 	                    <br>
-	                    <table class="table table-bordered">
+	                    <table class="table table-bordered table-membros">
 	                        <thead>
 	                            <tr>
 	                                <th>Nome dos participantes</th>
@@ -430,34 +430,63 @@ function modalEdicaoTime(time_id){
         }
     });
 }
-
+// Função para remover time e voltar com botão de adicionar
+function remove_item(el){
+	$(el).parent().parent().remove()
+	$('.adicionarParticipantes').show()
+}
 // Vincula o e-mail buscado ao usuário
 function acoes(e){
-    $(e).parent().parent().prev().val($(e).html());
-    $(e).parent().parent().prev().attr('readonly',true);
-    $('.datafetch').remove();
+	let td = $(e).attr('user_email')+'<input type="hidden" name="time_participantes[]" value="'+$(e).attr('user_email')+'"/>'
+    $(e).parents('.add-member').after(td)
+    $(e).parents('.add-member').remove();
+    $('.adicionarParticipantes').show();
 }
 
 // Busca os usuários pelo e-mail
-function fetch(s){
-    $('.datafetch .busca').remove();
-    $.post('<?php echo admin_url('admin-ajax.php'); ?>',{'action':'search_name','s' : s},
+function fetch(clickSearch){
+	$('.info-search-result').remove();
+	$(clickSearch).css('display','none');
+	$(clickSearch).parents('.input-group-prepend .input-group-text').append('  <i class="fas fa-spinner fa-spin"></i>')
+	let search_term = $(clickSearch).parents('.input-group').find('.dado_participante').val()
+    $.post('<?php echo admin_url('admin-ajax.php'); ?>',{'action':'search_name','s' : search_term},
     function(response){
-        $('.datafetch').append(response);
-            console.log(response);
+    	if(response.length > 0){
+    		var  ul = "<div class='info-search-result'> <p>Membros encontrados:</p> <ul class='list-user-search'>";
+    		response.forEach(function(key,index){
+				ul+='<li user_email="'+key+'" onclick="acoes($(this))" >' + (index+1)+ '-' + key + '</li>';
+			});
+			ul += "</ul><div>"
+        	$('.add-member').append(ul);
+    	}else{
+    		var  ul = "<div class='info-search-result' <p>Nenhum membro encontrado</p></ul><div>"
+        	$('.add-member').append(ul);
+    	}
+        console.log(response);
+    	$('.input-group-prepend .input-group-text').find('.fa-spinner').remove()
+		$('.input-group-prepend .fa-search').css('display','block');
     });
 }
 
 // Função para adicionar participantes
 function adicionaParticipante() {
-    let input ='<input type="text" name="time_participantes[]" class="form-control" placeholder="Digite o email do participante" required onkeyup="fetch($(this).val())"></input><div class="datafetch"></div>';
+	$('.adicionarParticipantes').hide();
+    let input =`
+		<div class="add-member">
+			<div class="input-group mb-2">
+		        <input type="text" class="form-control dado_participante" name="time_participantes[]" placeholder="Digite o email do participante" required>
+		        <div class="input-group-prepend">
+		          <div class="input-group-text"><i class="fas fa-search" onclick="fetch($(this))"></i></div>
+		        </div>
+		    </div>
+    	</div>`;
     let hr;
     hr = '<tr>'
     + '<td>' 
     + input
     + '</td>'
     + '<td></td>'
-    + '<td> <button type="button" class="btn btn-danger" onclick="$(this).parent().parent().remove()">Remover</button></td>'
+    + '<td> <button type="button" class="btn btn-danger" onclick="remove_item($(this))">Remover</button></td>'
     + '</tr>';
     $('.table-membros').append(hr);
 }
@@ -646,6 +675,36 @@ function modalRejeitarConvite(time_id,user_id){
 // Fim da seção de times 
 </script>
 <style type="text/css">
+	.add-member .search-input{
+		display: grid;
+		grid-template-columns: 80% 20%;
+	}
+	.table-membros td,.table-membros th{
+		color: #fff;
+	}
+	.input-group-prepend{
+		cursor: pointer;
+	}
+	.info-search-result p {
+		text-align: center;
+	    font-weight: bold;
+	    font-size: 20px;
+	    margin: 0;
+	}
+	.list-user-search li{
+		background-color: #000;
+	    text-align: center;
+	    padding: 5px;
+	    cursor: pointer;
+	    border-bottom: 1px solid #fff;
+	}
+	.list-user-search li:hover{
+	    background-color: #ffe906;
+	    font-weight: bold;
+	    color: #000;
+	    border-bottom: none;
+	    transition: background 1s;
+	}
 	.datafetch{
 	    border: 1px solid #000;
 	    padding: 2%;

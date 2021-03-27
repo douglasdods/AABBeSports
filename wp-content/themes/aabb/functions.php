@@ -847,14 +847,13 @@ add_action('wp_ajax_rejeitaConvite','rejeitaConvite',10,2);
 
 function data_fetch(){
     $user_id = get_current_user_id();
-    $blogusers = get_users( array( 'fields' => array( 'user_email','ID' ),'search' => $_POST['s'] ));
-    //$blogusers = get_users( array( 'search' => $_POST['s'] ) );
-    // Array of WP_User objects.
+    $blogusers = get_users( array( 'fields' => array( 'user_email','ID','display_name' ),'search' => $_POST['s'] ));
+    $users = array();
     foreach ( $blogusers as $user ) {
         if($user->ID != $user_id && $user->user_email == $_POST['s'])
-            echo '<h6 class="busca"><span onclick="acoes($(this))">' . esc_html( $user->user_email ) . '</span></h6>';
+            array_push($users,esc_html( $user->user_email ));
     }
-    die();
+    wp_send_json($users);
 }
 add_action('wp_ajax_search_name' , 'data_fetch');
 
