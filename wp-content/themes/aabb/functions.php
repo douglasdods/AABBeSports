@@ -1033,6 +1033,84 @@ function mostrarMembrosTimesCampeonato(){
 add_action('wp_ajax_mostrarMembrosTimesCampeonato', 'mostrarMembrosTimesCampeonato');
 add_action('wp_ajax_nopriv_mostrarMembrosTimesCampeonato', 'mostrarMembrosTimesCampeonato');
 
+function removeTimeCampeonato(){
+    global $wpdb;
+
+    $time_id = intval($_POST['time_id']);
+    $campeonato_id = intval($_POST['campeonato_id']);
+    $user_id  = get_current_user_id();
+    if(!is_user_logged_in()){
+        wp_send_json(array(
+            'error' => true,
+            'mensagem' => 'Não foi possível remover o time do campeonato'
+        ));
+    }
+    $busca_time_cmp = $wpdb->get_row("
+        SELECT 
+            id,capitao_id
+        FROM 
+            {$wpdb->prefix}_sis__campeonatos_times
+        WHERE 
+            time_id={$time_id}
+        AND 
+            campeonato_id = {$campeonato_id}
+    ", ARRAY_A);
+    if(empty($busca_time_cmp) || ($busca_time_cmp['capitao_id'] != $user_id)  ){
+        wp_send_json(array(
+            'error' => true,
+            'mensagem' => 'Não foi possível remover o time do campeonato'
+        ));
+    }
+    $campeonato_iniciado = get_post_meta($campeonato_id,'campeonato_iniciado',true);
+    $data_encerramento_inscricao = get_field('data_final_inscricao', $campeonato_id);
+    if($now < strtotime($data_encerramento_inscricao) && !$campeonato_iniciado){
+        $wpdb->query('START TRANSACTION');
+        $table_inscritos = $wpdb->prefix.'_sis__campeonatos__inscritos';
+        $remove_membros_campeonato = $wpdb->delete(
+            $table_inscritos,
+            array(
+                'campeonato_id' => $campeonato_id,
+                'time_id' => $time_id
+            )
+        );
+        if($remove_membros_campeonato){
+            $table_times_inscritos = $wpdb->prefix.'_sis__campeonatos_times';
+            $remove_time_campeonato = $wpdb->delete(
+                $table_times_inscritos,
+                array(
+                    'ID' => $busca_time_cmp['id'],
+                    'campeonato_id' => $campeonato_id,
+                    'time_id' => $time_id
+                )
+            );  
+            if($remove_membros_campeonato && $remove_time_campeonato) {
+                $wpdb->query('COMMIT'); // if you come here then well done
+                wp_send_json(array(
+                    'error' => false,
+                    'mensagem' => 'Inscrição no campeonato cancelada com sucesso'
+                ));
+            }
+            else {
+                $wpdb->query('ROLLBACK'); // // something went wrong, Rollback
+                wp_send_json(array(
+                    'error' => true,
+                    'mensagem' => 'Não foi possível remover o time do campeonato'
+                ));      
+            }
+        }else{
+            wp_send_json(array(
+                'error' => true,
+                'mensagem' => 'Não foi possível remover o time do campeonato'
+            ));  
+        }
+    }else{
+        wp_send_json(array(
+            'error' => true,
+            'mensagem' => 'Não foi possível remover o time do campeonato'
+        ));   
+    }
+}
+add_action('wp_ajax_removeTimeCampeonato', 'removeTimeCampeonato');
 
 function inscreverMembrosTimes(){
     global $wpdb;

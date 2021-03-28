@@ -274,6 +274,15 @@ while ( have_posts() ) {
                                                                 <div class="card-footer ">
                                                                      <button class="btn btn-warning  btn-lg btn-block btn-ver-membros-campeonato" data-time-id="<?= $value['ID'] ?>">Ver jogadores</button>
                                                                 </div>
+                                                                <?php 
+                                                                if(get_current_user_id() == $value['user_id_capitao'] && $now < strtotime($data_encerramento_inscricao)){
+                                                                ?>
+                                                                    <div class="card-footer ">
+                                                                         <button class="btn btn-danger  btn-lg btn-block btn-remove-time-campeonato" data-time-id="<?= $value['ID'] ?>">Cancelar inscrição</button>
+                                                                    </div>
+                                                                <?php 
+                                                                }
+                                                                ?>
                                                             </div>
                                                         </div>
                                                         

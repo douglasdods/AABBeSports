@@ -732,7 +732,35 @@ $(function (jQuery) {
         $('.lista-jogadores').remove();
     }
     
-    
+    function removeTimeCampeonatoSingle(){
+        $('.btn-remove-time-campeonato').click(function(){
+            if(confirm("Deseja realmente cancelar a inscrição do seu time nesse campeonato ? Essa ação não poderá ser desfeita!")){
+                var time_id = $(this).attr('data-time-id');
+                var campeonato_id = $("#universal-campeonato-id").val();
+
+                $.ajax({
+                    beforeSend: function(){
+                       
+                    },
+                    url: '/wp-admin/admin-ajax.php',
+                    type: 'POST',
+                    data: {
+                        'action' : 'removeTimeCampeonato',
+                        'time_id' :  time_id,
+                        'campeonato_id' : campeonato_id
+                    },
+                    success: function(response){
+                        console.log(response);
+                        alert(response['mensagem'])
+                        if(response['error'] == false){
+                            window.location.reload();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     function fase_data(){
         $('#fases_data').submit(function(e){
             e.preventDefault();
@@ -810,6 +838,7 @@ $(function (jQuery) {
         controle_campos_formulario();
         $('[data-toggle="tooltip"]').tooltip();
         mostraJogadoresTimeCampeonatoSingle();
+        removeTimeCampeonatoSingle();
         
 
         $('.center').slick({

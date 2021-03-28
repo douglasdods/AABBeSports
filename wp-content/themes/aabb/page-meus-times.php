@@ -105,7 +105,7 @@ if(is_user_logged_in() /* &&  ( $user_id == 1 || $user_id == 17  ||  $user_id ==
 	                <div class="form-row">
 	                    <label><strong>Participantes</strong></label>
 	                    <br>
-	                    <table class="table table-bordered table-membros">
+	                    <table class="table table-bordered membros-time">
 	                        <thead>
 	                            <tr>
 	                                <th>Nome dos participantes</th>
@@ -169,7 +169,7 @@ if(is_user_logged_in() /* &&  ( $user_id == 1 || $user_id == 17  ||  $user_id ==
 	                <div class="form-row">
 	                    <label><strong>Participantes</strong></label>
 	                    <br>
-	                    <table class="table table-bordered">
+	                    <table class="table table-bordered membros-time">
 	                        <thead>
 	                            <tr>
 	                                <th>Nome dos participantes</th>
@@ -679,7 +679,7 @@ function modalRejeitarConvite(time_id,user_id){
 		display: grid;
 		grid-template-columns: 80% 20%;
 	}
-	.table-membros td,.table-membros th{
+	.membros-time td,.membros-time th{
 		color: #fff;
 	}
 	.input-group-prepend{
