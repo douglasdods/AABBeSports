@@ -10,6 +10,7 @@ while ( have_posts() ) {
     $tabela_campeonato_times = $wpdb->prefix.'_sis__campeonatos_times';
     $tabela_campeonato_fases = $wpdb->prefix.'_sis__campeonatos_fases';
     $tabela_campeonato_jogos = $wpdb->prefix.'_sis__campeonatos_jogos';
+    $tabela_campeonato_inscritos = $wpdb->prefix.'_sis__campeonatos__inscritos';
     $tabela_campeonato_jogos_solicitacao = $wpdb->prefix.'_sis__campeonatos_jogos_solicitacao';
     $campeonato_iniciado = get_post_meta($campeonato_id,'campeonato_iniciado',true);
     $usuario_logado = is_user_logged_in();
@@ -151,9 +152,24 @@ while ( have_posts() ) {
                                                     if ($usuario_logado) {                                                        
                                                         $user_data = get_userdata($user_id);
                                                         $data_encerramento_inscricao = get_field('data_final_inscricao', $campeonato_id);
-                                                        $num_times_inscritos = count($times_campeonato);
+                                                        
+                                                        //verifica se o campeonato é em times para verificar o máximo de inscritos
+                                                        if (get_field('campeonato_em_equipe', $campeonato_id) == "Sim"){
+                                                            $num_inscritos = count($times_campeonato);
+                                                        }else{
+                                                            $inscritos_campeonato = $wpdb->get_results("
+                                                                SELECT 
+                                                                    ci.user_id
+                                                                FROM 
+                                                                    {$tabela_campeonato_inscritos} as ci
+                                                                WHERE 
+                                                                    ci.campeonato_id={$campeonato_id}
+                                                            ",ARRAY_A);
+                                                            $num_inscritos = count($inscritos_campeonato);
+                                                        }
                                                         $numero_maximo_times = get_field('numero_maximo_times', $campeonato_id);
-                                                        if ($now < strtotime($data_encerramento_inscricao) && $num_times_inscritos < $numero_maximo_times) {
+                                                        
+                                                        if ($now < strtotime($data_encerramento_inscricao) && $num_inscritos < $numero_maximo_times) {
                                                             $equipe = get_field('campeonato_em_equipe', $campeonato_id);
                                                             if ($equipe == "Sim"){
                                                                 $sql = "SELECT 
