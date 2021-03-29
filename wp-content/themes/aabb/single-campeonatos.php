@@ -109,11 +109,11 @@ while ( have_posts() ) {
                                                     <th scope="row">LOCAL:</th>
                                                     <td><?php echo get_field('local', $campeonato_id);?></td>
                                                 </tr>
-                                                <!--<tr>
+                                                <tr>
                                                     <th scope="row">DATA:</th>
-                                                    <td><?php //echo  date("d/m/Y H:i", strtotime(get_field('data',$campeonato_id)));?></td>
+                                                    <td><?php echo date("d/m/Y H:i", strtotime(get_field('data',$campeonato_id)));?></td>
                                                     </tr>
-                                                <tr>-->
+                                                <tr>
                                                     <th scope="row">VALOR:</th>
                                                     <td><?php echo get_field('valor', $campeonato_id);?></td>
                                                 </tr>
