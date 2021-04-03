@@ -19,7 +19,7 @@ $userdata = get_userdata($user_id); ?>
         </div>
     </div>
     <div class="box-nome-usuario">
-        <p class="nome-usuario">Olá, <?php echo $userdata->first_name?></p>
+    <p class="nome-usuario">Olá <?php echo $userdata->display_name?></p>
     </div>
     <div class="box-botoes">
         <a href="/meus-dados/" class="bnt-sidebar">Meus Dados</a>
