@@ -467,7 +467,7 @@ a.bnt-inscrevase-campeonato {
 }
 .box-img-texto-circuitos img {
     max-width: 100px;
-    margin-bottom
+    /*margin-bottom;*/
 }
 .titulo-quem-somos-2 {
     text-align: center;
@@ -717,7 +717,7 @@ body.login {
     color: #fff;
 }
 
-#page-cadastro, #page-meus-times {
+#page-cadastro, #page-meus-times,#page-meus-campeonatos {
     background: #211f1f;
     padding: 50px 0px;
 }
@@ -782,7 +782,7 @@ body.login {
     color: #000;
 }
 
-#page-meus-times .title-page {
+#page-meus-times,#page-meus-campeonatos .title-page {
     color: #fff;
 }
 
@@ -791,12 +791,12 @@ body.login {
     float: left;
     padding-left: 20px;
 }
-.card-times {
+.card-times,.card-campeonatos {
     background: #313131;
     border: 1px solid #4c4b4b;
     margin: 0 5px;
 }
-.card-times .card-body{
+.card-campeonatos .card-body,.card-times .card-body{
     /*width: calc(100% - 150px);*/
     width: 75%;
     float: right;

@@ -19,12 +19,12 @@ $userdata = get_userdata($user_id); ?>
         </div>
     </div>
     <div class="box-nome-usuario">
-    <p class="nome-usuario">Olá <?php echo $userdata->display_name?></p>
+        <p class="nome-usuario">Olá <?php echo $userdata->display_name?></p>
     </div>
     <div class="box-botoes">
         <a href="/meus-dados/" class="bnt-sidebar">Meus Dados</a>
         <a href="/meus-times/" class="bnt-sidebar">Meus Times</a>
-        <a href="#" class="bnt-sidebar">Meus Campeonatos</a>
+        <a href="/meus-campeonatos/" class="bnt-sidebar">Meus Campeonatos</a>
         <a href="javascript:void(0)" class="btn-logout">Sair</a>
     </div>    
 
