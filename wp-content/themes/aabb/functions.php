@@ -697,6 +697,67 @@ function sairDoTime(){
     if(isset($_POST['time_id']) && !empty($_POST['time_id']) && !empty($_POST['user_id']) && !empty($_POST['id'])){
         $dados = $_POST;
         $user_id = get_current_user_id();
+
+        // Verifica se o time está em um campeonato
+        $sql_campeonatos_inscritos =  "
+            SELECT 
+                ci.campeonato_id as campeonato_id,
+                ci.time_id as time_id,
+                cf.status as status
+            FROM
+                {$wpdb->prefix}_sis__campeonatos__inscritos as ci
+            LEFT JOIN 
+                (   SELECT
+                        *
+                    FROM    
+                        {$wpdb->prefix}_sis__campeonatos_fases
+                    WHERE 
+                        nome_fase = 'Final'
+                ) as cf
+            ON
+                ci.campeonato_id = cf.campeonato_id
+            WHERE 
+                ci.time_id = {$dados['time_id']}
+            AND
+                ci.user_id = {$dados['user_id']}
+            AND
+                (cf.status IS NULL OR cf.status != 'Concluído')
+        ";        
+        $user_campeonatos = $wpdb->get_results($sql_campeonatos_inscritos,ARRAY_A);
+        $campeonatos_ativos =array(
+            'nao_iniciados' => array(),
+            'andamento' => array()
+        );
+        if(!empty($user_campeonatos)){
+            foreach ($user_campeonatos as $campeonatos =>$campeonato) {
+                $campeonato_iniciado = get_post_meta($campeonato['campeonato_id'],'campeonato_iniciado', true);
+                if(!$campeonato_iniciado){
+                    array_push(
+                        $campeonatos_ativos['nao_iniciados'],
+                        array(
+                            'campeonato_id' => $campeonato['campeonato_id'],
+                            'campeonato_nome' => get_the_title($campeonato['campeonato_id']),
+                        )
+                    );
+                }else{
+                    array_push(
+                        $campeonatos_ativos['andamento'],
+                        array(
+                            'campeonato_id' => $campeonato['campeonato_id'],
+                            'campeonato_nome' => get_the_title($campeonato['campeonato_id']),
+                        )
+                    );
+                }
+            }
+            if(!empty($campeonatos_ativos)){
+                wp_send_json(array(
+                    'error' =>true,
+                    'type' => 'campeonatos_ativos',
+                    'mensagem' => 'Você possui campeonatos ativos por este time',
+                    'data' => $campeonatos_ativos
+                ));
+            }
+        }
         $table = $wpdb->prefix.'_sis__times_membros';
         $sql = "SELECT * FROM {$table} WHERE time_id = {$_POST['time_id']} AND user_id = {$user_id} AND time_inscricao_status = 'Confirmado'";
         $atualizaTime = $wpdb->get_row($sql);
@@ -1112,17 +1173,165 @@ function removeTimeCampeonato(){
 }
 add_action('wp_ajax_removeTimeCampeonato', 'removeTimeCampeonato');
 
-function inscreverMembrosTimes(){
+function editaTimeCampeonato(){
     global $wpdb;
+    $time_id = intval($_POST['time_id']);
+    $campeonato_id = intval($_POST['campeonato_id']);
+    $user_id  = get_current_user_id();
+    if(!is_user_logged_in()){
+        wp_send_json(array(
+            'error' => true,
+            'mensagem' => 'Não é possível editar o time no campeonato'
+        ));
+    }
+    $busca_time_cmp = $wpdb->get_row("
+        SELECT 
+            id,capitao_id
+        FROM 
+            {$wpdb->prefix}_sis__campeonatos_times
+        WHERE 
+            time_id={$time_id}
+        AND 
+            campeonato_id = {$campeonato_id}
+    ", ARRAY_A);
+    if(empty($busca_time_cmp) || ($busca_time_cmp['capitao_id'] != $user_id)  ){
+        wp_send_json(array(
+            'error' => true,
+            'mensagem' => 'Não é possível editar o time no campeonato'
+        ));
+    }
+    $campeonato_iniciado = get_post_meta($campeonato_id,'campeonato_iniciado',true);
+    $data_encerramento_inscricao = get_field('data_final_inscricao', $campeonato_id);
+    if($now < strtotime($data_encerramento_inscricao) && !$campeonato_iniciado){
+        $jogadores = $wpdb->get_results("
+            SELECT 
+                si.ID as inscricao_id,
+                si.time_id as time_id,
+                si.campeonato_id as campeonato_id,
+                si.user_id as usuario_id,
+                si.user_jogo_nickname as 'nickname',
+                u.display_name as 'nome_jogador'
+            FROM 
+                {$wpdb->prefix}_sis__campeonatos__inscritos as si
+            INNER JOIN 
+                {$wpdb->prefix}users as u 
+            ON 
+                u.id = si.user_id
+            WHERE 
+                time_id={$time_id}
+            AND 
+                campeonato_id = {$campeonato_id}
+        ");
+        wp_send_json($jogadores);
+    }else{
+        wp_send_json(array(
+            'error' => true,
+            'mensagem' => 'Não é possível editar o time no campeonato'
+        ));   
+    }
+}
+add_action('wp_ajax_editaTimeCampeonato', 'editaTimeCampeonato');
 
-    $time_id = $_REQUEST['time_id'];
-    $campeonato_id = $_REQUEST['campeonato_id'];
-    $capitao_id = $_REQUEST['capitao_id'];
-    $jogadores_id = $_REQUEST['jogadores'];
-    $response = array();
-
-    
-    $wpdb->insert(
+function removeMembroTimeCampeonato(){
+    global $wpdb;
+    $time_id = intval($_POST['time_id']);
+    $campeonato_id = intval($_POST['campeonato_id']);
+    $inscricao_id = intval($_POST['inscricao_id']);
+    $user_remocao_id = intval($_POST['user_id']);
+    $user_id = get_current_user_id();
+    $busca_time_cmp = $wpdb->get_row("
+        SELECT 
+            id,capitao_id
+        FROM 
+            {$wpdb->prefix}_sis__campeonatos_times
+        WHERE 
+            time_id={$time_id}
+        AND 
+            campeonato_id = {$campeonato_id}
+    ", ARRAY_A);
+    if(empty($busca_time_cmp) || ($busca_time_cmp['capitao_id'] != $user_id)  ){
+        wp_send_json(array(
+            'error' => true,
+            'mensagem' => 'Não é possível remover o jogador do campeonato'
+        ));
+    }
+    $campeonato_iniciado = get_post_meta($campeonato_id,'campeonato_iniciado',true);
+    $data_encerramento_inscricao = get_field('data_final_inscricao', $campeonato_id);
+    if($now < strtotime($data_encerramento_inscricao) && !$campeonato_iniciado){
+        $sql_count_jogadores =  "
+            SELECT 
+                count(*) as 'num_jogadores'
+            FROM
+                {$wpdb->prefix}_sis__campeonatos__inscritos
+            WHERE 
+                campeonato_id = {$campeonato_id}
+            AND
+                time_id = {$time_id}
+        ";
+        $count_jogadores = $wpdb->get_row($sql_count_jogadores,ARRAY_A);
+        if(($count_jogadores['num_jogadores'] -1) < get_post_meta($campeonato_id,'num_min_jogadores', true) ){
+            wp_send_json(array(
+                'error' => true,
+                'mensagem' => 'Não foi possível remover o jogador, pois o time não terá o mínimo de participantes'
+            ));
+        }else{
+            $remove = $wpdb->delete(
+                $wpdb->prefix.'_sis__campeonatos__inscritos',
+                array(
+                    'ID' => $inscricao_id,
+                    'user_id' => $user_remocao_id,
+                    'time_id' => $time_id,
+                    'campeonato_id' => $campeonato_id
+                )
+            );
+            if($remove){
+                wp_send_json(array(
+                    'error' => false,
+                    'mensagem' => 'Jogador removido com sucesso'
+                ));
+            }else{
+                wp_send_json(array(
+                    'error' => true,
+                    'mensagem' => 'Não foi possível remover o jogador, tente novamente mais tarde'
+                ));
+            }
+        }
+        
+    }else{
+        wp_send_json(array(
+            'error' => true,
+            'mensagem' => 'Não é possível editar o time no campeonato neste momento'
+        ));   
+    }
+}
+add_action("wp_ajax_removeMembroTimeCampeonato", 'removeMembroTimeCampeonato');
+function getCapitaoTime($time_id){
+    global $wpdb;
+    return $wpdb->get_row("
+        SELECT 
+            user_id_capitao
+        FROM 
+            {$wpdb->prefix}_sis__time
+        WHERE
+            ID = {$time_id}
+    ");
+}
+function getTimeCampeonato($time_id,$campeonato_id){
+    global $wpdb;
+    return $wpdb->get_row("
+        SELECT 
+            *
+        FROM 
+            {$wpdb->prefix}_sis__campeonatos_times
+        WHERE
+            time_id = {$time_id}
+            and
+            campeonato_id = {$campeonato_id}
+    ");
+}
+function addTimeCampeonato($time_id,$campeonato_id,$capitao_id){
+    global $wpdb;
+    return $wpdb->insert(
         $wpdb->prefix."_sis__campeonatos_times",
         array(
             'time_id' => $time_id,
@@ -1130,7 +1339,35 @@ function inscreverMembrosTimes(){
             'capitao_id' => $capitao_id,
         )
     );
-
+}
+function inscreverMembrosTimes(){
+    global $wpdb;
+    $time_id = $_REQUEST['time_id'];
+    $campeonato_id = $_REQUEST['campeonato_id'];
+    $capitao_id = $_REQUEST['capitao_id'];
+    $jogadores_id = $_REQUEST['jogadores'];
+    $response = array();
+    $user_id = get_current_user_id();
+    if(empty($capitao_id)){
+        $capitao_id = getCapitaoTime($time_id);
+    }
+    if($user_id != $capitao_id){
+        $response = array(
+            'error' => true,
+            'mensagem' => 'Somente o capitão do time pode adicionar um participante.',
+        ); 
+        wp_send_json($response);
+    }
+    $time_camp = getTimeCampeonato($time_id,$campeonato_id);
+    if(empty($time_camp)){
+        if(!addTimeCampeonato($time_id,$campeonato_id,$capitao_id)){
+            $response = array(
+                'error' => true,
+                'mensagem' => 'Não foi possível adicionar o time no campeonato'
+            ); 
+            wp_send_json($response);
+        }
+    }
     $id_jogador = '';
     foreach ($jogadores_id as $jogador) {
         $id_jogador = $jogador[0]['id_jogador'];
@@ -1148,19 +1385,62 @@ function inscreverMembrosTimes(){
         if ($wpdb->insert_id == false) {
              $response = array(
                 'error' => true,
-                'messagem' => $wpdb->last_query
+                'mensagem' => $wpdb->last_query
              );
              wp_send_json($wpdb->last_error);
         }
     }
     $response = array(
         'error' => false,
-        'messagem' => ''
+        'mensagem' => 'Inscrição finalizada com sucesso.'
     ); 
-    wp_send_json($id_jogador);
+    wp_send_json($response);
 }
 add_action('wp_ajax_inscreverMembrosTimes', 'inscreverMembrosTimes');
 
+function getMembrosTimesNaoInscritos(){
+    global $wpdb;
+    $time_id = intval($_POST['time_id']);
+    $campeonato_id = intval($_POST['campeonato_id']);
+    $sql_user_inscritos = "
+        SELECT 
+            GROUP_CONCAT(user_id) as users
+        FROM 
+            {$wpdb->prefix}_sis__campeonatos__inscritos
+        WHERE 
+            campeonato_id = {$campeonato_id}
+        AND
+            time_id = {$time_id}
+    ";
+    $inscritos = $wpdb->get_row($sql_user_inscritos,ARRAY_A);
+    $r_membros = $wpdb->get_results("
+        SELECT 
+            m.ID as id,
+            m.time_id as time_id,
+            u.ID as user_id,
+            u.display_name as display_name,
+            m.time_inscricao_status as time_inscricao_status
+        FROM 
+            {$wpdb->prefix}_sis__times_membros as m 
+        INNER JOIN 
+            {$wpdb->prefix}users as u  
+        ON 
+            u.id = m.user_id  
+        WHERE 
+            m.time_id={$time_id}
+        AND 
+            m.user_id NOT IN ({$inscritos['users']})
+        AND
+            m.time_inscricao_status = 'Confirmado'
+    ");
+    wp_send_json(
+        array(
+            'membros' => $r_membros,
+            'max_add' => get_field('num_max_jogadores', $campeonato_id) -count(explode(',',$inscritos['users']))
+        )
+    );
+}
+add_action('wp_ajax_getMembrosTimesNaoInscritos', 'getMembrosTimesNaoInscritos');
 
 function iniciaCampeonato(){
     global $_POST,$wpdb;

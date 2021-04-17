@@ -294,6 +294,7 @@ while ( have_posts() ) {
                                                                 if(get_current_user_id() == $value['user_id_capitao'] && $now < strtotime($data_encerramento_inscricao)){
                                                                 ?>
                                                                     <div class="card-footer ">
+                                                                         <button class="btn btn-primary  btn-lg btn-block btn-edita-jogadores-campeonato" data-time-id="<?= $value['ID'] ?>">Editar jogadores</button>
                                                                          <button class="btn btn-danger  btn-lg btn-block btn-remove-time-campeonato" data-time-id="<?= $value['ID'] ?>">Cancelar inscrição</button>
                                                                     </div>
                                                                 <?php 
@@ -816,7 +817,6 @@ while ( have_posts() ) {
                 </div>
             </div>
             <div id="modal-membros-time">
-            
                 <div class="modal-body modal-body-custom">
                     <div class="row justify-content-center row-listagem-membros-inscricao">
                         <div class="col-10 offset-1">
@@ -837,15 +837,39 @@ while ( have_posts() ) {
                         
                     </div>
                 </div>
-
-                
             </div>
-
+            <div id="modal-edicao-membros-time">
+                <div class="modal-body modal-body-custom">
+                    <div class="row justify-content-center row-listagem-edicao-membros-inscricao">
+                        <div class="col-10 offset-1">
+                            <p class="nome-time-inscricao">Jogadores inscritos por esse time</p>
+                            <span class="btn-close" onclick="fecharModalEdicaojogadoresCamp()">X</span>
+                            <table id="membros-edicao-inscritos-camp" class="table table-striped table-dark">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-left">Jogador</th>
+                                        <th scope="col" class="text-left">Nickname</th>
+                                        <th scope="col" class="text-left">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script type="text/javascript">
         function fecharModaljogadoresCamp(){
             $('#modal-membros-time').hide();
+            $('.lista-jogadores').remove();
+        }
+        function fecharModalEdicaojogadoresCamp(){
+            $('#modal-edicao-membros-time').hide();
             $('.lista-jogadores').remove();
         }
         function contestarResultados(){
@@ -1152,6 +1176,7 @@ while ( have_posts() ) {
                 }
             });
         });
+        
     </script>
     <style type="text/css">
         .vencedor-aabb{

@@ -594,13 +594,33 @@ function sairDoTime(e,id,user_id,time_id){
             
         }).done(function(r){
             if(r['error']){
-                alert(r['mensagem']);
-                console.log(r);
-                $('button').attr('disabled',false);
+            	if(r['type'] == 'campeonatos_ativos'){
+            		if(r['data']['andamento'].length){
+            			let mensagem = "Aguarde o encerramento dos seguintes campeonatos para sair desse time:\n";
+            			r['data']['andamento'].forEach(function(index,value){
+            				mensagem += " " +value['campeonato_nome']+ "\n";
+            			});
+	            		alert(mensagem);
+		                //console.log(r);
+		                $('button').attr('disabled',false);
+            		}else{
+            			let mensagem = "Você deverá sair dos seguintes campeonatos para sair desse time:\n";
+            			r['data']['nao_iniciados'].forEach(function(index,value){
+            				mensagem += " " +index['campeonato_nome']+ "\n";
+            			});
+	            		alert(mensagem);
+		                //console.log(r);
+		                $('button').attr('disabled',false);
+            		}
+            	}else{
+	                alert(r['mensagem']);
+	                //console.log(r);
+	                $('button').attr('disabled',false);
+            	}
             }else{
                 alert(r['mensagem']);
                 $(e).parent().parent().remove();
-                console.log(r);
+                //console.log(r);
                 location.reload();
             }
         });
