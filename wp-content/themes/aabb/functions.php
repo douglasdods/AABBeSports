@@ -1482,123 +1482,126 @@ function gerarTabela(){
             camp_time.campeonato_id={$campeonato_id} AND time_id = 0
         ";
     }
-
-    $results = $wpdb->get_results($sql,ARRAY_A);
-    $numero_times = count($results);
-    $fechamento_proximo = 0;
-    $quantidade_fases = 0;
-    foreach ($chaveamento as $key => $value) {
-        if($value == $numero_times){
-            $fechamento_proximo = $value;
-            $quantidade_fases = $key +1 ;
-            break; 
-        }elseif($value > $numero_times){
-            $fechamento_proximo = $value;
-            $quantidade_fases = $key + 1;
-            break;
-        }
-    }
-    $numero_jogos = $fechamento_proximo / 2;
-    $times_fases = array();
-    foreach ($results as $key) {
-        array_push($times_fases,$key['time_id']);
-    }
-    shuffle($times_fases);
-    $chaves = array();
-    $tot = $fechamento_proximo-1;
-    for ($i= 0 ; $i  < $numero_jogos ; $i++ ) { 
-        array_push($chaves,array(
-            'time_1' => empty($times_fases[$i]) ? 0 : $times_fases[$i],
-            'time_2' => empty($times_fases[$tot]) ? 0 : $times_fases[$tot]
-        ));
-        $tot--;
-    }
-    // INSERINDO FASES NO BANCO 
-    $fases = array('Final','Semi-Final','Quartas de Final','Oitavas de Final');
-    $table  = $wpdb->prefix.'_sis__campeonatos_fases';
-    $quantidade_jogos = 1;
-    for ($i=0; $i < $quantidade_fases ; $i++) { 
-        $args = array(
-            'campeonato_id' => $campeonato_id,
-            'nome_fase' => (isset($fases[$i])) ? $fases[$i] : ($quantidade_fases - $i) . 'º Fase',
-            'ordem' => $quantidade_fases -$i,
-            'status' => ($i == $quantidade_fases -1) ? 'Em progresso' :  'Não iniciado',
-        );
-        if($args['nome_fase'] != 'Final'){
-            $args['proxima_fase_id'] = $fase_id;
-        }
-        $insert = $wpdb->insert($table,$args);
-        $fase_id_query = $wpdb->get_results("SELECT max(id) AS id FROM {$table}",ARRAY_A) ;
-        $fase_id = $fase_id_query[0]['id'];
-        if($insert){
-            $table_camp  = $wpdb->prefix.'_sis__campeonatos_jogos';
-            if($i == $quantidade_fases -1){
-                foreach ($chaves as $key => $value) {
-                    $wo = false;
-                    $wo_time = false;
-                    $resultado_time_1 = '';
-                    $resultado_time_2 = '';
-                    if($value['time_1']== 0){
-                        $wo = true;
-                        $wo_time = $value['time_2'];
-                        $resultado_time_1 = 0;
-                        $resultado_time_2 = 3;
-                    }
-                    if($value['time_2'] == 0){
-                        $wo = true;
-                        $wo_time = $value['time_1'];
-                        $resultado_time_1 = 3;
-                        $resultado_time_2 = 0;
-                    }
-                    $args = array(
-                        'numero_do_jogo' => $key + 1 ,
-                        'fase_id' => $fase_id,
-                        'campeonato_id' => $campeonato_id,
-                        'time_1_id' => $value['time_1'],
-                        'time_2_id' => $value['time_2'],
-                        'resultado_time_1' => $resultado_time_1 ,
-                        'resultado_time_2' => $resultado_time_2,
-                        'vencedor_id' => ($wo) ? $wo_time : '',
-                        'wo' => ($wo) ? 'Sim' : 'Não',
-                        'resultado_status' => ($wo) ? 'Confirmado' : 'Em Aberto'
-                    );
-                    $insert_fase = $wpdb->insert($table_camp,$args);
-                    if(!$insert_fase){
-                        wp_send_json(
-                            array(
-                                'error' => true,
-                                'mensagem' => $wpdb->last_error
-                            )
-                        );
-                    }
-                }
-            }else{
-                for ($nc=0; $nc < $quantidade_jogos ; $nc++) { 
-                    $args = array(
-                        'numero_do_jogo' => $nc + 1,
-                        'fase_id' => $fase_id,
-                        'campeonato_id' => $campeonato_id,
-                        'wo' => 'Não',
-                    );
-                    $insert_fase = $wpdb->insert($table_camp,$args);
-                    if(!$insert_fase){
-                        wp_send_json(
-                            array(
-                                'error' => true,
-                                'mensagem' => $wpdb->last_error
-                            )
-                        );
-                    }
-                }
+    $sqltable = "SELECT * FROM {$wpdb->prefix}__sis__campeonatos_fases WHERE campeonato_id = {$campeonato_id}"
+    $resultTable = $wpdb->get_results($sqltable,ARRAY_A);
+    if(empty($resultTable)){
+        $results = $wpdb->get_results($sql,ARRAY_A);
+        $numero_times = count($results);
+        $fechamento_proximo = 0;
+        $quantidade_fases = 0;
+        foreach ($chaveamento as $key => $value) {
+            if($value == $numero_times){
+                $fechamento_proximo = $value;
+                $quantidade_fases = $key +1 ;
+                break; 
+            }elseif($value > $numero_times){
+                $fechamento_proximo = $value;
+                $quantidade_fases = $key + 1;
+                break;
             }
-            $quantidade_jogos*=2;
-        }else{
-            wp_send_json(
-            array(
-                'error' => true,
-                'mensagem' => 'Erro ao gerar tabelas do campeonato'
-            )
-        );     
+        }
+        $numero_jogos = $fechamento_proximo / 2;
+        $times_fases = array();
+        foreach ($results as $key) {
+            array_push($times_fases,$key['time_id']);
+        }
+        shuffle($times_fases);
+        $chaves = array();
+        $tot = $fechamento_proximo-1;
+        for ($i= 0 ; $i  < $numero_jogos ; $i++ ) { 
+            array_push($chaves,array(
+                'time_1' => empty($times_fases[$i]) ? 0 : $times_fases[$i],
+                'time_2' => empty($times_fases[$tot]) ? 0 : $times_fases[$tot]
+            ));
+            $tot--;
+        }
+        // INSERINDO FASES NO BANCO 
+        $fases = array('Final','Semi-Final','Quartas de Final','Oitavas de Final');
+        $table  = $wpdb->prefix.'_sis__campeonatos_fases';
+        $quantidade_jogos = 1;
+        for ($i=0; $i < $quantidade_fases ; $i++) { 
+            $args = array(
+                'campeonato_id' => $campeonato_id,
+                'nome_fase' => (isset($fases[$i])) ? $fases[$i] : ($quantidade_fases - $i) . 'º Fase',
+                'ordem' => $quantidade_fases -$i,
+                'status' => ($i == $quantidade_fases -1) ? 'Em progresso' :  'Não iniciado',
+            );
+            if($args['nome_fase'] != 'Final'){
+                $args['proxima_fase_id'] = $fase_id;
+            }
+            $insert = $wpdb->insert($table,$args);
+            $fase_id_query = $wpdb->get_results("SELECT max(id) AS id FROM {$table}",ARRAY_A) ;
+            $fase_id = $fase_id_query[0]['id'];
+            if($insert){
+                $table_camp  = $wpdb->prefix.'_sis__campeonatos_jogos';
+                if($i == $quantidade_fases -1){
+                    foreach ($chaves as $key => $value) {
+                        $wo = false;
+                        $wo_time = false;
+                        $resultado_time_1 = '';
+                        $resultado_time_2 = '';
+                        if($value['time_1']== 0){
+                            $wo = true;
+                            $wo_time = $value['time_2'];
+                            $resultado_time_1 = 0;
+                            $resultado_time_2 = 3;
+                        }
+                        if($value['time_2'] == 0){
+                            $wo = true;
+                            $wo_time = $value['time_1'];
+                            $resultado_time_1 = 3;
+                            $resultado_time_2 = 0;
+                        }
+                        $args = array(
+                            'numero_do_jogo' => $key + 1 ,
+                            'fase_id' => $fase_id,
+                            'campeonato_id' => $campeonato_id,
+                            'time_1_id' => $value['time_1'],
+                            'time_2_id' => $value['time_2'],
+                            'resultado_time_1' => $resultado_time_1 ,
+                            'resultado_time_2' => $resultado_time_2,
+                            'vencedor_id' => ($wo) ? $wo_time : '',
+                            'wo' => ($wo) ? 'Sim' : 'Não',
+                            'resultado_status' => ($wo) ? 'Confirmado' : 'Em Aberto'
+                        );
+                        $insert_fase = $wpdb->insert($table_camp,$args);
+                        if(!$insert_fase){
+                            wp_send_json(
+                                array(
+                                    'error' => true,
+                                    'mensagem' => $wpdb->last_error
+                                )
+                            );
+                        }
+                    }
+                }else{
+                    for ($nc=0; $nc < $quantidade_jogos ; $nc++) { 
+                        $args = array(
+                            'numero_do_jogo' => $nc + 1,
+                            'fase_id' => $fase_id,
+                            'campeonato_id' => $campeonato_id,
+                            'wo' => 'Não',
+                        );
+                        $insert_fase = $wpdb->insert($table_camp,$args);
+                        if(!$insert_fase){
+                            wp_send_json(
+                                array(
+                                    'error' => true,
+                                    'mensagem' => $wpdb->last_error
+                                )
+                            );
+                        }
+                    }
+                }
+                $quantidade_jogos*=2;
+            }else{
+                wp_send_json(
+                array(
+                    'error' => true,
+                    'mensagem' => 'Erro ao gerar tabelas do campeonato'
+                )
+            );     
+            }
         }
     }
 }
