@@ -441,6 +441,15 @@ while ( have_posts() ) {
                                             }
                                             echo '</div>';
                                         }
+                                    }else{
+                                        //(math)Se não tiver resuldos, vai liberar o botão para gerar uma nova tabela
+                                        if($now > strtotime($data_encerramento_inscricao) && $usuario_logado && $usuario_author){
+                                            ?>
+                                            <div class="row m-3">
+                                                <button onclick="gerarTabela(<?= $campeonato_id ?>)" class="btn btn-warning m-auto w-25">Gerar Tabela</button>
+                                            </div>
+                                            <?php
+                                        }
                                     }
 
                                     $sql = "
@@ -629,7 +638,8 @@ while ( have_posts() ) {
                                                                     </p>
                                                                 </div>
                                                                 <?php 
-                                                                if($usuario_logado  &&  ($user_id == $time_1_capitao || $user_id == $time_2_capitao || $usuario_author) && $key['wo'] == 'Não' && $acesso_wo && ($usuario_author || empty($key['data_encerramento']) || $now < ( strtotime($key['data_encerramento']))) ){
+                                                                //(math) Agora verifica se o campeonato já foi iniciado antes de liberar a inserção de resultados
+                                                                if($campeonato_iniciado && $usuario_logado  &&  ($user_id == $time_1_capitao || $user_id == $time_2_capitao || $usuario_author) && $key['wo'] == 'Não' && $acesso_wo && ($usuario_author || empty($key['data_encerramento']) || $now < ( strtotime($key['data_encerramento']))) ){
                                                                     if($key['resultado_status'] == 'Confirmacao pendente'){
                                                                         $sql_busca_autor_postagem = "
                                                                             SELECT 
@@ -1140,6 +1150,23 @@ while ( have_posts() ) {
                 }
             });
         }
+        //(math)função para gerar a tabela
+        function gerarTabela(campeonato_id){
+            $.ajax({
+                url : '/wp-admin/admin-ajax.php',
+                method : 'POST',
+                data :{
+                    action : 'gerarTabela',
+                    campeonato_id : campeonato_id
+                }
+            }).done(function(data){
+                alert(data['mensagem']);
+                if(data['error'] == false){
+                    location.reload();
+                }
+            });
+        }
+
         $('#nav-contestacoes-tab').on('click',function(){
             $('table .lista-solicitacoes tr').remove();
             $.ajax({
