@@ -432,6 +432,84 @@ function buscaTime(){
 }
 add_action('wp_ajax_BuscaTime','buscaTime',10);
 
+//Função para alterar imagem de perfil
+function AtualizaImagem(){
+    global $_POST,$wpdb,$_FILES;
+    $user_id = get_current_user_id();
+    $table = $wpdb->prefix.'users';
+
+
+    if($_FILES['user_image']['size'] > 0  && !empty($_FILES['user_image']['tmp_name'])){
+        $wordpress_upload_dir = wp_upload_dir(); 
+        $user_img = $_FILES['user_image'];
+        $new_file_path = $wordpress_upload_dir['path'] . '/' . $user_img['name'];
+        $new_file_mime = mime_content_type( $time_img['tmp_name'] );
+         
+        if( $user_img['error'] ){
+             wp_send_json(
+                array(
+                    'error' => true,
+                    'mensagem' => 'Não foi possível realizar o upload da imagem',
+                    'data' => $user_img['error']
+                )
+            ); 
+        }
+
+        if($user_img['type']!= "image/jpeg" && $user_img['type']!="image/png"){
+            wp_send_json(
+                array(
+                    'error' => true,
+                    'mensagem' => 'Formato inválido.',
+                    'data' => $user_img['error']
+                )
+            ); 
+        }
+
+        if( $user_img['size'] > wp_max_upload_size() ){
+            wp_send_json(
+                array(
+                    'error' => true,
+                    'mensagem' => 'A imagem é muito grande, tente realizar o upload de uma imagem menor',
+                    'data' => $user_img['error']
+                )
+            ); 
+        }
+        if( move_uploaded_file( $user_img['tmp_name'], $new_file_path ) ) { 
+            $upload_id = wp_insert_attachment( array(
+                'guid'           => $new_file_path, 
+                'post_mime_type' => $new_file_mime,
+                'post_title'     => preg_replace( '/\.[^.]+$/', '', $user_img['name'] ),
+                'post_content'   => '',
+                'post_status'    => 'inherit'
+            ), $new_file_path );
+            wp_update_attachment_metadata( $upload_id, wp_generate_attachment_metadata( $upload_id, $new_file_path ) );
+        }
+        if(isset($upload_id) && !empty($upload_id)){
+            $args = array();
+            $args['user_image'] = $upload_id;
+
+            $where  = array(
+                'ID' => $user_id
+            );
+
+            $wpdb->update($table,$args,$where);
+            wp_send_json(
+                array(
+                    'error' => false,
+                    'mensagem' => 'Imagem alterada com sucesso'
+                )
+            );
+        }
+    }
+    wp_send_json(
+        array(
+            'error' => false,
+            'mensagem' => 'Não foi possivel alterar sua imagem de usuário'
+        )
+    );
+}
+add_action('wp_ajax_AtualizaImagem','AtualizaImagem');
+
 function AtualizaTime(){
     global $_POST,$wpdb,$_FILES;
     if(isset($_POST['time_nome']) && !empty($_POST['time_nome']) && !empty($_POST['time_id'])){

@@ -1350,3 +1350,19 @@ body.login {
 .time_imagem_exibe img{
     max-width: 15vw;
 }
+
+.change-img-button:hover img{
+    opacity: 0.5;
+}
+
+.change-img-button:hover .drop-img-text{
+    display: block;
+}
+
+.drop-img-text{
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    display: none;
+    height: 0;
+}

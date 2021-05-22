@@ -2,7 +2,14 @@
 $user_id = get_current_user_id();
 $id_post = get_user_meta($user->data->ID, 'foto_site');
 get_field('_wp_attached_file', $id_post[0]); 
-$userdata = get_userdata($user_id); ?>
+$userdata = get_userdata($user_id); 
+
+$img =  wp_get_attachment_url(get_userdata($user_id)->user_image);
+if($img == false){
+    $img = AABB_THEME_URI.'/img/avatar-padrao.jpg';
+}
+
+?>
 
 <div class="box-sidebar">
     <div class="box-imagem-usuario">
@@ -12,10 +19,12 @@ $userdata = get_userdata($user_id); ?>
         $userdata = get_userdata($user_id);
         ?>
         <div class="box-img-user">
-            <?php// if(){?>
-                <img class="img-user-conta" src="<?php echo AABB_THEME_URI?>/img/avatar-padrao.jpg">
-            <?php //}?>
-                
+            <a class="btn shadow-none change-img-button" href="aabbsite/minha-imagem/">
+                <img class="img-user-conta" src="<?php echo $img?>">
+                <div class="drop-img-text">
+                    <p>Editar Imagem</p>
+                </div> 
+            </a>
         </div>
     </div>
     <div class="box-nome-usuario">
