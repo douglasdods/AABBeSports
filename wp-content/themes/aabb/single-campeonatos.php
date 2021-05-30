@@ -532,8 +532,13 @@ while ( have_posts() ) {
                                                                 <div class="row">
                                                                     <div class="col-1">
                                                                         <?php 
-                                                                        $img =  wp_get_attachment_url($dados_times[$key['time_1_id']]['time_imagem']);
-                                                                        echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/Icons/img-time-sem-foto.png">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        if (get_field('campeonato_em_equipe', $campeonato_id) == "Sim"){
+                                                                            $img =  wp_get_attachment_url($dados_times[$key['time_1_id']]['time_imagem']);
+                                                                            echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/Icons/img-time-sem-foto.png">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        }else{
+                                                                            $img =  wp_get_attachment_url(get_userdata($key['time_1_id'])->user_image);
+                                                                            echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/avatar-padrao.jpg">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        }
                                                                         ?>
                                                                     </div>
                                                                     <div class="col-3">
@@ -555,8 +560,13 @@ while ( have_posts() ) {
                                                                     </div>
                                                                     <div class="col-1">
                                                                         <?php 
-                                                                        $img =  wp_get_attachment_url($dados_times[$key['time_2_id']]['time_imagem']);
-                                                                        echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/Icons/img-time-sem-foto.png">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        if (get_field('campeonato_em_equipe', $campeonato_id) == "Sim"){
+                                                                            $img =  wp_get_attachment_url($dados_times[$key['time_2_id']]['time_imagem']);
+                                                                            echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/Icons/img-time-sem-foto.png">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        }else{
+                                                                            $img =  wp_get_attachment_url(get_userdata($key['time_2_id'])->user_image);
+                                                                            echo ($img==false) ? '<img class="img-time-tabela" src="'.AABB_THEME_URI.'/img/avatar-padrao.jpg">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        }
                                                                         ?>
                                                                     </div>
                                                                 </div>
@@ -590,8 +600,13 @@ while ( have_posts() ) {
                                                                     <div class="col-1">
                                                                         <?php 
                                                                         echo ($time_vencedor_id==$key['time_1_id']) ?'<img  class="vencedor-aabb" src="'.AABB_THEME_URI . '/img/icon-vencedor.png">':'';
-                                                                        $img =  wp_get_attachment_url($dados_times[$key['time_1_id']]['time_imagem']);
-                                                                        echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/Icons/img-time-sem-foto.png">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        if (get_field('campeonato_em_equipe', $campeonato_id) == "Sim"){
+                                                                            $img =  wp_get_attachment_url($dados_times[$key['time_1_id']]['time_imagem']);
+                                                                            echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/Icons/img-time-sem-foto.png">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        }else{
+                                                                            $img =  wp_get_attachment_url(get_userdata($key['time_1_id'])->user_image);
+                                                                            echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/avatar-padrao.jpg">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        }
                                                                         ?>
                                                                     </div>
                                                                     <div class="col-3">
@@ -611,8 +626,13 @@ while ( have_posts() ) {
                                                                     </div>
                                                                     <div class="col-1">
                                                                         <?php 
-                                                                        $img =  wp_get_attachment_url($dados_times[$key['time_2_id']]['time_imagem']);
-                                                                        echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/Icons/img-time-sem-foto.png">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        if (get_field('campeonato_em_equipe', $campeonato_id) == "Sim"){
+                                                                            $img =  wp_get_attachment_url($dados_times[$key['time_2_id']]['time_imagem']);
+                                                                            echo ($img==false) ? '<img class="img-time-tabela" src="'. AABB_THEME_URI . '/img/Icons/img-time-sem-foto.png">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        }else{
+                                                                            $img =  wp_get_attachment_url(get_userdata($key['time_2_id'])->user_image);
+                                                                            echo ($img==false) ? '<img class="img-time-tabela" src="'.AABB_THEME_URI.'/img/avatar-padrao.jpg">' : '<img class="card-img-top" src="'.$img.'">';
+                                                                        }
                                                                         echo ($time_vencedor_id == $key['time_2_id']) ? '<img  class="vencedor-aabb" src="'.AABB_THEME_URI . '/img/icon-vencedor.png">' : ''
                                                                         ?>
                                                                     </div>
