@@ -436,14 +436,14 @@ add_action('wp_ajax_BuscaTime','buscaTime',10);
 function AtualizaImagem(){
     global $_POST,$wpdb,$_FILES;
     $user_id = get_current_user_id();
-    $table = $wpdb->prefix.'users';
+    $table = $wpdb->prefix.'usermeta';
 
 
     if($_FILES['user_image']['size'] > 0  && !empty($_FILES['user_image']['tmp_name'])){
         $wordpress_upload_dir = wp_upload_dir(); 
         $user_img = $_FILES['user_image'];
         $new_file_path = $wordpress_upload_dir['path'] . '/' . $user_img['name'];
-        $new_file_mime = mime_content_type( $time_img['tmp_name'] );
+        $new_file_mime = mime_content_type( $user_img['tmp_name'] );
          
         if( $user_img['error'] ){
              wp_send_json(
@@ -492,13 +492,22 @@ function AtualizaImagem(){
                 'ID' => $user_id
             );
 
-            $wpdb->update($table,$args,$where);
-            wp_send_json(
-                array(
-                    'error' => false,
-                    'mensagem' => 'Imagem alterada com sucesso'
-                )
-            );
+            if(update_user_meta($user_id, 'user_image', $upload_id)){
+                wp_send_json(
+                    array(
+                        'error' => false,
+                        'mensagem' => 'Imagem alterada com sucesso'
+                    )
+                );
+            }else{
+                wp_send_json(
+                    array(
+                        'error' => true,
+                        'mensagem' => 'Imagem alterada com sucesso'
+                    )
+                );
+            }
+
         }
     }
     wp_send_json(
@@ -1016,7 +1025,13 @@ function custom_register_user(){
         update_user_meta($user_id, 'cidade', $_REQUEST['cidade']);
         update_user_meta($user_id, 'user_estado', $_REQUEST['user_estado']);*/
         update_user_meta($user_id, 'user_telefone', $_REQUEST['user_telefone']);
-        
+        update_user_meta($user_id, 'socio_aabb', $_REQUEST['user_socio_aabb']);
+        update_user_meta($user_id, 'estado_aabb', $_REQUEST['user_estado_aabb']);
+        update_user_meta($user_id, 'cidade_aabb', $_REQUEST['user_cidade_aabb']);
+        update_user_meta($user_id, 'dependente_aabb', $_REQUEST['user_dependente_aabb']);
+        update_user_meta($user_id, 'titular_aabb', $_REQUEST['user_titular_aabb']);
+
+
         $creds = array(
             'user_login'    => $_REQUEST['user_email'],
             'user_password' => $_REQUEST['user_pass'],
@@ -1064,7 +1079,10 @@ function custom_register_user(){
         update_user_meta($user_id, 'user_estado', $_REQUEST['user_estado']);
         update_user_meta($user_id, 'user_telefone', $_REQUEST['user_telefone']);
         update_user_meta($user_id, 'socio_aabb', $_REQUEST['user_socio_aabb']);
+        update_user_meta($user_id, 'estado_aabb', $_REQUEST['user_estado_aabb']);
         update_user_meta($user_id, 'cidade_aabb', $_REQUEST['user_cidade_aabb']);
+        update_user_meta($user_id, 'dependente_aabb', $_REQUEST['user_dependente_aabb']);
+        update_user_meta($user_id, 'titular_aabb', $_REQUEST['user_titular_aabb']);
         
         $return = array(
             'erro' => 0,
@@ -1424,10 +1442,12 @@ function inscreverMembrosTimes(){
     $campeonato_id = $_REQUEST['campeonato_id'];
     $capitao_id = $_REQUEST['capitao_id'];
     $jogadores_id = $_REQUEST['jogadores'];
+
     $response = array();
     $user_id = get_current_user_id();
     if(empty($capitao_id)){
         $capitao_id = getCapitaoTime($time_id);
+        $capitao_id = $capitao_id->user_id_capitao;
     }
     if($user_id != $capitao_id){
         $response = array(
@@ -1524,6 +1544,7 @@ add_action('wp_ajax_getMembrosTimesNaoInscritos', 'getMembrosTimesNaoInscritos')
 function gerarTabela(){
     global $_POST,$wpdb;
     $campeonato_id = $_POST['campeonato_id'];
+    $chaveamento = array(2,4,8,16,32,64,128,256,512,1024);
     $fases = array('Final','Semi-Final','Quartas de Final','Oitavas de Final');
 
     if(empty($campeonato_id) || !intval($campeonato_id)){
@@ -1560,7 +1581,8 @@ function gerarTabela(){
             camp_time.campeonato_id={$campeonato_id} AND time_id = 0
         ";
     }
-    $sqltable = "SELECT * FROM {$wpdb->prefix}__sis__campeonatos_fases WHERE campeonato_id = {$campeonato_id}"
+    $sqltable = "SELECT * FROM {$wpdb->prefix}__sis__campeonatos_fases WHERE campeonato_id = {$campeonato_id}";
+
     $resultTable = $wpdb->get_results($sqltable,ARRAY_A);
     if(empty($resultTable)){
         $results = $wpdb->get_results($sql,ARRAY_A);
@@ -1643,7 +1665,7 @@ function gerarTabela(){
                             'resultado_status' => ($wo) ? 'Confirmado' : 'Em Aberto'
                         );
                         $insert_fase = $wpdb->insert($table_camp,$args);
-                        if(!$insert_fase){
+                        if($insert_fase == false){
                             wp_send_json(
                                 array(
                                     'error' => true,
@@ -1665,7 +1687,7 @@ function gerarTabela(){
                             wp_send_json(
                                 array(
                                     'error' => true,
-                                    'mensagem' => $wpdb->last_error
+                                    'mensagem' => '$wpdb->last_error'
                                 )
                             );
                         }
@@ -1754,7 +1776,7 @@ function iniciaCampeonato(){
         }
 
         //(math) Verifica se a tabela já foi criada
-        $sqltable = "SELECT * FROM {$wpdb->prefix}__sis__campeonatos_fases WHERE campeonato_id = {$campeonato_id}"
+        $sqltable = "SELECT * FROM {$wpdb->prefix}__sis__campeonatos_fases WHERE campeonato_id = {$campeonato_id}";
         $resultTable = $wpdb->get_results($sqltable,ARRAY_A);
         if(empty($resultTable)){
             $results = $wpdb->get_results($sql,ARRAY_A);

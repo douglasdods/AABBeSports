@@ -747,7 +747,7 @@ body.login {
 .form-cadastro label, .form-atualizar-dados label {
     color: #ddd;
 }
-.form-cadastro .box-cidade-aabb{
+.form-cadastro .box-cidade-aabb,.form-cadastro .box-dependente-aabb, .box-estado-aabb, .box-nome-titular-aabb{
     display: none;
 }
 .form-cadastro .box-matricula-funcionario{
@@ -1365,4 +1365,21 @@ body.login {
     text-align: center;
     display: none;
     height: 0;
+}
+#modal-edicao-membros-time {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 100px;
+    left: 0;
+    background: #000000ad;
+    z-index: 9;
+}
+ #organizadores{
+     background-color: #211f1f;
+     padding: 50px 0px;
+ }
+.img-organizador {
+    max-width: 100%;
 }

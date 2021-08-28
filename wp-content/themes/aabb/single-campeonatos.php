@@ -1181,6 +1181,7 @@ while ( have_posts() ) {
                 }
             }).done(function(data){
                 alert(data['mensagem']);
+                console.log(data);
                 if(data['error'] == false){
                     location.reload();
                 }

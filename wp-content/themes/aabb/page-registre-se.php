@@ -19,13 +19,8 @@ get_header();
                                     
                                 
                                     <div class="row form-group">
-                                        <div class="col-md-5">
-                                            <input type="text" class="form-control" name="username" id="username" maxlength="50" placeholder="Nome de usuário">
-                                            <div id="error-username" class="invalid-feedback">
-                                                Campo obrigatório!
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7">
+
+                                        <div class="col-md-12">
                                             <input type="text" class="form-control" name="display_name" maxlength="50" placeholder="Nome completo">
                                             <div id="error-nome" class="invalid-feedback">
                                                 Campo obrigatório!
@@ -43,7 +38,7 @@ get_header();
                                             </div>
                                         </div>
                                         <div class="col-md-5">
-                                            <input type="text" class="form-control" name="user_telefone" id="user_telefone" placeholder="Telefone">
+                                            <input type="text" class="form-control" name="user_telefone" id="user_telefone" placeholder="WhatsApp">
                                             <div id="error-telefone-vazio" class="invalid-feedback">
                                                 Campo obrigatório!
                                             </div>
@@ -55,7 +50,12 @@ get_header();
                                         
                                     </div>
                                     <div class="row form-group">
-                                    
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="username" id="username" maxlength="50" placeholder="Nome de usuário">
+                                            <div id="error-username" class="invalid-feedback">
+                                                Campo obrigatório!
+                                            </div>
+                                        </div>
                                         <div class="col-md-6">
                                             <input type="password" class="form-control" name="user_pass" placeholder="Senha de acesso">
                                             <div id="error-senha" class="invalid-feedback">
@@ -70,15 +70,69 @@ get_header();
                                         <div class="col-md-6">
                                             <label for="user_socio_aabb">Sócio AABB? *</label>
                                             <select id="user_socio_aabb" class="form-control" name="user_socio_aabb">
+                                                <option value="" selected="selected">-</option>
                                                 <option value="Sim">Sim</option>
-                                                <option value="Não" selected="selected">Não</option>
+                                                <option value="Não">Não</option>
                                             </select>
+                                            <div id="error-socio_aabb" class="invalid-feedback">
+                                                Campo obrigatório!
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-5">
+                                            <div class="box-estado-aabb">
+                                                <label for="user_estado-aabb">Estado AABB</label>
+                                                <select id="user_estado-aabb" class="form-control" name="user_estado-aabb">
+                                                    <option value="">Selecione o Estado</option>
+                                                    <option value="MG">MG</option>
+                                                    <option value="SP">SP</option>
+                                                    <option value="ES">ES</option>
+                                                    <option value="RJ">RJ</option>
+                                                </select>
+                                                <div id="error-estado-aabb" class="invalid-feedback">
+                                                    Campo obrigatório!
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-7">
                                             <div class="box-cidade-aabb">    
                                                 <label for="user_cidade_aabb">Cidade AABB</label>
-                                                <input type="text" name="user_cidade_aabb" id="user_cidade_aabb" class="form-control">
+                                                <select id="user_cidade_aabb" name="user_cidade_aabb" class="form-control">
+                                                    <option value="">Selecione a Cidade</option>
+                                                    <option value="Caratinga" data-estado="MG">Caratinga</option>
+                                                    <option value="Belo Horizonte" data-estado="MG">Belo Horizonte</option>
+                                                    <option value="São Paulo" data-estado="SP">São Paulo</option>
+                                                    <option value="Campinas" data-estado="SP">Campinas</option>
+                                                    <option value="Rio de Janeiro" data-estado="RJ">Rio de Janeiro</option>
+                                                    <option value="Vitória" data-estado="ES">Vitória</option>
+                                                </select>
                                                 <div id="error-cidade-aabb" class="invalid-feedback">
+                                                    Campo obrigatório!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-5">
+                                            <div class="box-dependente-aabb">
+                                                <label for="user_dependente_aabb">Titular ou Dependente?*</label>
+                                                <select id="user_dependente_aabb" class="form-control" name="user_dependente_aabb">
+                                                    <option value="" selected="selected">-</option>
+                                                    <option value="Titular">Titular</option>
+                                                    <option value="Dependente">Dependente</option>
+                                                </select>
+                                                <div id="error-dependente" class="invalid-feedback">
+                                                    Campo obrigatório!
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="box-nome-titular-aabb">
+                                                <label for="nome-titular-aabb">Digite o nome do titular da cota</label>
+                                                <input class="form-control" type="text" id="nome-titular-aabb" name="nome-titular-aabb" placeholder="">
+                                                <div id="error-nome-titular-aabb" class="invalid-feedback">
                                                     Campo obrigatório!
                                                 </div>
                                             </div>

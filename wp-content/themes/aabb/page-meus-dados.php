@@ -135,10 +135,89 @@ get_header();
                                                 <option value="Não" <?php echo $socio_aabb != 'Sim' ? 'selected="selected"' : '';?>>Não</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="box-cidade-aabb">
+                                        <?php $estado_aabb = get_user_meta($user_id, 'estado_aabb', true);?>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-5">
+                                            <div class="box-estado-aabb" style="display: <?= $estado_aabb =='' ? 'none' : 'block'; ?>">
+                                                <label for="user_estado-aabb">Estado AABB</label>
+                                                <select id="user_estado-aabb" name="user_estado-aabb" class="form-control">
+                                                    <option value=""></option>
+                                                    <option value="AC" <?php echo $estado_aabb == 'AC' ? 'selected="selected"' : '';?>>AC</option>
+                                                    <option value="AL" <?php echo $estado_aabb == 'AL' ? 'selected="selected"' : '';?>>AL</option>
+                                                    <option value="AP" <?php echo $estado_aabb == 'AP' ? 'selected="selected"' : '';?>>AP</option>
+                                                    <option value="AM" <?php echo $estado_aabb == 'AM' ? 'selected="selected"' : '';?>>AM</option>
+                                                    <option value="BA" <?php echo $estado_aabb == 'BA' ? 'selected="selected"' : '';?>>BA</option>
+                                                    <option value="CE" <?php echo $estado_aabb == 'CE' ? 'selected="selected"' : '';?>>CE</option>
+                                                    <option value="DF" <?php echo $estado_aabb == 'DF' ? 'selected="selected"' : '';?>>DF</option>
+                                                    <option value="ES" <?php echo $estado_aabb == 'ES' ? 'selected="selected"' : '';?>>ES</option>
+                                                    <option value="GO" <?php echo $estado_aabb == 'GO' ? 'selected="selected"' : '';?>>GO</option>
+                                                    <option value="MA" <?php echo $estado_aabb == 'MA' ? 'selected="selected"' : '';?>>MA</option>
+                                                    <option value="MT" <?php echo $estado_aabb == 'MT' ? 'selected="selected"' : '';?>>MT</option>
+                                                    <option value="MS" <?php echo $estado_aabb == 'MS' ? 'selected="selected"' : '';?>>MS</option>
+                                                    <option value="MG" <?php echo $estado_aabb == 'MG' ? 'selected="selected"' : '';?>>MG</option>
+                                                    <option value="PA" <?php echo $estado_aabb == 'PA' ? 'selected="selected"' : '';?>>PA</option>
+                                                    <option value="PB" <?php echo $estado_aabb == 'PB' ? 'selected="selected"' : '';?>>PB</option>
+                                                    <option value="PR" <?php echo $estado_aabb == 'PR' ? 'selected="selected"' : '';?>>PR</option>
+                                                    <option value="PE" <?php echo $estado_aabb == 'PE' ? 'selected="selected"' : '';?>>PE</option>
+                                                    <option value="PI" <?php echo $estado_aabb == 'PI' ? 'selected="selected"' : '';?>>PI</option>
+                                                    <option value="RJ" <?php echo $estado_aabb == 'RJ' ? 'selected="selected"' : '';?>>RJ</option>
+                                                    <option value="RN" <?php echo $estado_aabb == 'RN' ? 'selected="selected"' : '';?>>RN</option>
+                                                    <option value="RS" <?php echo $estado_aabb == 'RS' ? 'selected="selected"' : '';?>>RS</option>
+                                                    <option value="RO" <?php echo $estado_aabb == 'RO' ? 'selected="selected"' : '';?>>RO</option>
+                                                    <option value="RR" <?php echo $estado_aabb == 'RR' ? 'selected="selected"' : '';?>>RR</option>
+                                                    <option value="SC" <?php echo $estado_aabb == 'SC' ? 'selected="selected"' : '';?>>SC</option>
+                                                    <option value="SP" <?php echo $estado_aabb == 'SP' ? 'selected="selected"' : '';?>>SP</option>
+                                                    <option value="SE" <?php echo $estado_aabb == 'SE' ? 'selected="selected"' : '';?>>SE</option>
+                                                    <option value="TO" <?php echo $estado_aabb == 'TO' ? 'selected="selected"' : '';?>>TO</option>
+
+                                                </select>
+                                                <div id="error-estado-aabb" class="invalid-feedback">
+                                                    Campo obrigatório!
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <?php $cidade_aabb = get_user_meta($user_id, 'cidade_aabb', true)?>
+                                            <div class="box-cidade-aabb" style="display: <?= $cidade_aabb =='' ? 'none' : 'block'; ?>">
                                                 <label for="user_cidade_aabb">Cidade AABB</label>
-                                                <input type="text" name="user_cidade_aabb" id="user_cidade_aabb" class="form-control" value="<?php echo get_user_meta($user_id, 'cidade_aabb', true)?>">
+                                                <select id="user_cidade_aabb" name="user_cidade_aabb" class="form-control">
+                                                    <option value="">Selecione a Cidade</option>
+                                                    <option value="Caratinga" data-estado="MG" <?php echo $cidade_aabb == 'Caratinga' ? 'selected="selected"' : '';?>>Caratinga</option>
+                                                    <option value="Belo Horizonte" data-estado="MG" <?php echo $cidade_aabb == 'Belo Horizonte' ? 'selected="selected"' : '';?>>Belo Horizonte</option>
+                                                    <option value="São Paulo" data-estado="SP" <?php echo $cidade_aabb == 'São Paulo' ? 'selected="selected"' : '';?>>São Paulo</option>
+                                                    <option value="Campinas" data-estado="SP" <?php echo $cidade_aabb == 'Campinas' ? 'selected="selected"' : '';?>>Campinas</option>
+                                                    <option value="Rio de Janeiro" data-estado="RJ" <?php echo $cidade_aabb == 'Rio de Janeiro' ? 'selected="selected"' : '';?>>Rio de Janeiro</option>
+                                                    <option value="Vitória" data-estado="ES" <?php echo $cidade_aabb == 'Vitória' ? 'selected="selected"' : '';?>>Vitória</option>
+                                                </select>
+                                                <div id="error-cidade-aabb" class="invalid-feedback">
+                                                    Campo obrigatório!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-5">
+                                            <?php $dependente_aabb = get_user_meta($user_id, 'dependente_aabb', true)?>
+                                            <div class="box-dependente-aabb" style=" display: <?= $dependente_aabb == '' ? 'none' : 'block'; ?>">
+                                                <label for="user_dependente_aabb">Titular ou Dependente?*</label>
+                                                <select id="user_dependente_aabb" class="form-control" name="user_dependente_aabb">
+                                                    <option value="" selected="selected">-</option>
+                                                    <option value="Titular" <?php echo $dependente_aabb == 'Titular' ? 'selected="selected"' : '';?>>Titular</option>
+                                                    <option value="Dependente" <?php echo $dependente_aabb == 'Dependente' ? 'selected="selected"' : '';?>>Dependente</option>
+                                                </select>
+                                                <div id="error-dependente" class="invalid-feedback">
+                                                    Campo obrigatório!
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="box-nome-titular-aabb" style=" display: <?= get_user_meta($user_id, 'titular_aabb', true) =='' ? 'none' : 'block'; ?>">
+                                                <label for="nome-titular-aabb">Digite o nome do titular da cota</label>
+                                                <input class="form-control" type="text" id="nome-titular-aabb" name="nome-titular-aabb" value="<?php echo get_user_meta($user_id, 'titular_aabb', true)?>" placeholder="">
+                                                <div id="error-nome-titular-aabb" class="invalid-feedback">
+                                                    Campo obrigatório!
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

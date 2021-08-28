@@ -114,12 +114,38 @@ $(function (jQuery) {
         });
         $('#user_socio_aabb').on('change', function () {
             if($(this).val() == "Sim"){
-                $('.box-cidade-aabb').show();
+                $('.box-estado-aabb').show();
+                $('.box-dependente-aabb').show();
+
             }else {
+                $('.box-dependente-aabb').hide();
+                $('#user_dependente_aabb').val('');
                 $('.box-cidade-aabb').hide();
                 $('#user_cidade_aabb').val('');
+                $('.box-estado-aabb').hide();
+                $('#user_estado-aabb').val('');
+                $('.box-nome-titular-aabb').hide();
+                $('#nome-titular-aabb').val('');
             }
         });
+        $('#user_estado-aabb').on('change', function () {
+            console.log($(this).val())
+
+            $('.box-cidade-aabb').show();
+            $('#user_cidade_aabb').val('');
+            $('#user_cidade_aabb option').hide();
+            $('#user_cidade_aabb option[data-estado="'+$(this).val()+'"]').show();
+
+        });
+        $('#user_dependente_aabb').on('change', function () {
+            if ($(this).val() == "Dependente"){
+                $('.box-nome-titular-aabb').show();
+            }else{
+                $('.box-nome-titular-aabb').hide();
+                $('#nome-titular-aabb').val('');
+            }
+        });
+
     }
 
     function formataCpf(){
@@ -180,12 +206,11 @@ $(function (jQuery) {
             var valor = $('#user_chave_func_bb').val();
             
             valor = valor.replace(/[^A-Z0-9]+/g,'');
-            valor = valor.substring(0,9);
+            valor = valor.substring(0,8);
 
             for(i=0;i < valor.length; i++){
-                if(i==1){str = str +' '};
-                if(i==2 || i==5){str = str +'.'};
-                if(i==8){str = str +'-'};
+                if(i==1 || i==4){str = str +'.'};
+                if(i==7){str = str +'-'};
                 str = str+ (valor[i].toString());
             }
             $('#user_chave_func_bb').val(str);
@@ -201,6 +226,12 @@ $(function (jQuery) {
                 let nome = $('input[name="display_name"]').val();
                 let email = $('input[name="user_email"]').val();
                 let senha = $('input[name="user_pass"]').val();
+                let user_socio_aabb = $('#user_socio_aabb').val();
+                let user_estado_aabb = $('#user_estado-aabb').val();
+                let user_cidade_aabb = $('#user_cidade_aabb').val();
+                let user_dependente_aabb = $('#user_dependente_aabb').val();
+                let user_titular_aabb = $('#nome-titular-aabb').val();
+
                 //let data_nascimento = $('input[name="user_data_nascimento"]').val();
                 //let sexo = $('#sexo').val();
                 //let cpf = $('input[name="user_cpf"]').val();
@@ -222,6 +253,11 @@ $(function (jQuery) {
                         'user_email' : email,
                         'user_pass' : senha,
                         'user_telefone' : telefone,
+                        'user_socio_aabb' : user_socio_aabb,
+                        'user_estado_aabb' : user_estado_aabb,
+                        'user_cidade_aabb' : user_cidade_aabb,
+                        'user_dependente_aabb' : user_dependente_aabb,
+                        'user_titular_aabb' : user_titular_aabb
                     },
                     success: function(response){
                         $('.div-load').hide();
@@ -253,7 +289,10 @@ $(function (jQuery) {
                 let estado = $('#user_estado').val();
                 let telefone = $('#user_telefone').val();
                 let user_socio_aabb = $('#user_socio_aabb').val(); 
+                let user_estado_aabb = $('#user_estado-aabb').val();
                 let user_cidade_aabb = $('#user_cidade_aabb').val();
+                let user_dependente_aabb = $('#user_dependente_aabb').val();
+                let user_titular_aabb = $('#nome-titular-aabb').val();
                 
                 $.ajax({
                     beforeSend: function(){
@@ -275,6 +314,9 @@ $(function (jQuery) {
                         'user_telefone' : telefone,
                         'user_socio_aabb': user_socio_aabb,
                         'user_cidade_aabb': user_cidade_aabb,
+                        'user_estado_aabb' : user_estado_aabb,
+                        'user_dependente_aabb' : user_dependente_aabb,
+                        'user_titular_aabb' : user_titular_aabb
                     },
                     success: function(response){
                         $('.div-load').hide();
@@ -388,12 +430,38 @@ $(function (jQuery) {
             $('#error-estado').show();
             error = 1;
         }*/
-        if ($("#user_socio_aabb").val() == 'Sim') {
-            if (!$('#user_cidade_aabb').val()){
-                $('#error-cidade-aabb').show();
-                error = 1;
+        if (!$("#user_socio_aabb").val()) {
+            $('#error-socio_aabb').show();
+            error = 1;
+        }else {
+            if ($("#user_socio_aabb").val() == 'Sim') {
+
+                if (!$('#user_estado-aabb').val()) {
+                    $('#error-estado-aabb').show();
+                    error = 1;
+
+                } else {
+                    if (!$('#user_cidade_aabb').val()) {
+                        $('#error-cidade-aabb').show();
+                        error = 1;
+                    }
+                }
+
+                if (!$('#user_dependente_aabb').val()) {
+                    $('#error-dependente').show();
+                    error = 1;
+                } else {
+                    if ($('#user_dependente_aabb').val() == "Dependente") {
+                        if (!$('#nome-titular-aabb').val()){
+                            $('#error-nome-titular-aabb').show();
+                            error = 1;
+                        }
+
+                    }
+
+                }
             }
-            
+
         }
         /*if ($("#funcionario_bb").val() == 'Sim') {
             if (!$('#user_chave_func_bb').val()){
@@ -426,7 +494,7 @@ $(function (jQuery) {
                 error = 1;
             }
         }
-        
+        /*
         if (!$('input[name="user_data_nascimento"]').val()){
             $('#error-data_nascimento').show();
             error = 1;
@@ -484,13 +552,39 @@ $(function (jQuery) {
         if (!$('#user_estado').val()){
             $('#error-estado').show();
             error = 1;
-        }
-        if ($("#user_socio_aabb").val() == 'Sim') {
-            if (!$('#user_cidade_aabb').val()){
-                $('#error-cidade-aabb').show();
-                error = 1;
+        }*/
+        if (!$("#user_socio_aabb").val()) {
+            $('#error-socio_aabb').show();
+            error = 1;
+        }else {
+            if ($("#user_socio_aabb").val() == 'Sim') {
+
+                if (!$('#user_estado-aabb').val()) {
+                    $('#error-estado-aabb').show();
+                    error = 1;
+
+                } else {
+                    if (!$('#user_cidade_aabb').val()) {
+                        $('#error-cidade-aabb').show();
+                        error = 1;
+                    }
+                }
+
+                if (!$('#user_dependente_aabb').val()) {
+                    $('#error-dependente').show();
+                    error = 1;
+                } else {
+                    if ($('#user_dependente_aabb').val() == "Dependente") {
+                        if (!$('#nome-titular-aabb').val()){
+                            $('#error-nome-titular-aabb').show();
+                            error = 1;
+                        }
+
+                    }
+
+                }
             }
-            
+
         }
         if ($("#funcionario_bb").val() == 'Sim') {
             if (!$('#user_chave_func_bb').val()){
