@@ -72,14 +72,14 @@ while ( have_posts() ) {
                 $args = array(
                     'post_type' => 'campeonatos',
                     'posts_per_page' => $posts_per_page,
-                    /*'meta_query' => array(
+                    'meta_query' => array(
                         array(
                             'key' => 'data',
                             'value' => date('Y-m-d H:i:s'),
                             'type' => 'data',
                             'compare' => '>'
                         ),
-                    ),*/
+                    ),
                     'orderby' => 'data',
                     'order' => 'ASC',
                 );

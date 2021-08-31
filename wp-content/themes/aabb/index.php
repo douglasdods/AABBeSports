@@ -110,14 +110,14 @@ get_header();
                 $args = array(
                     'post_type' => 'campeonatos',
                     'posts_per_page' => $posts_per_page,
-                    /*'meta_query' => array(
+                    'meta_query' => array(
                         array(
                             'key' => 'data',
                             'value' => date('Y-m-d H:i:s'),
                             'type' => 'data',
                             'compare' => '>'
                         ),
-                    ),*/
+                    ),
                     'orderby' => 'data',
                     'order' => 'ASC',
                 );
@@ -131,9 +131,9 @@ get_header();
 	                        <thead class="table-dark">
 		                        <tr>
 		                            <th scope="col">Campeonato</th>
-		                            <th scope="col">Organizador</th>
+<!--		                            <th scope="col">Organizador</th>-->
 		                            <th scope="col">Local</th>
-		                            <!--<th scope="col">Data</th>-->
+		                            <th scope="col">Data</th>-
 		                            <th scope="col">Categoria</th>
 		                            <th scope="col"></th>
 		                        </tr>
@@ -161,9 +161,9 @@ get_header();
 
 			                                <tr>
 			                                    <td><?php echo get_the_title();?></th>
-			                                    <td><?php echo get_the_title();?></th>
+<!--			                                    <td>--><?php //echo get_the_title();?><!--</th>-->
 			                                    <td><?php echo get_field('local',get_the_ID());?></td>
-			                                    <!--<td><?php // echo date("d/m/Y H:i", strtotime(get_field('data',get_the_ID())));?></td>-->
+			                                    <td><?php echo date("d/m/Y H:i", strtotime(get_field('data',get_the_ID())));?></td>
 			                                    <td><?php echo $categoria;?></td>
 			                                    <td class="col-inscrevase"><a class="bnt-inscrevase-campeonato" href="<?php echo get_the_permalink();?>">Acesse</a></td>
 			                                </tr>

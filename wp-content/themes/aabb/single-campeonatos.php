@@ -525,7 +525,8 @@ while ( have_posts() ) {
                                                 }
                                             ?>
                                             <?php 
-                                                if ($campeonato_iniciado == 1 && $usuario_logado  &&  ($user_id == $time_1_capitao || $user_id == $time_2_capitao || $usuario_author) && $key['wo'] == 'Não' && ($key['resultado_status'] == 'Em Aberto' || ($key['resultado_status'] == 'Contestado' && ($usuario_author || $permissao_global))) && $acesso_wo &&  ($usuario_author || empty($key['data_encerramento']) || $now < strtotime($key['data_encerramento']) ) ) { ?>
+                                                //if ($campeonato_iniciado == 1 && $usuario_logado  &&  ($user_id == $time_1_capitao || $user_id == $time_2_capitao || $usuario_author) && $key['wo'] == 'Não' && ($key['resultado_status'] == 'Em Aberto' || ($key['resultado_status'] == 'Contestado' && ($usuario_author || $permissao_global))) && $acesso_wo &&  ($usuario_author || empty($key['data_encerramento']) || $now < strtotime($key['data_encerramento']) ) ) {
+                                                if ($campeonato_iniciado == 1 && $usuario_logado  &&  $usuario_author && $key['wo'] == 'Não' && ($key['resultado_status'] == 'Em Aberto' || ($key['resultado_status'] == 'Contestado' && ($usuario_author || $permissao_global))) && $acesso_wo &&  ($usuario_author || empty($key['data_encerramento']) || $now < strtotime($key['data_encerramento']) ) ) { ?>
                                                     <div class="times">
                                                         <div class="row justify-content-center">
                                                             <div class="col-11" style="border: 1px solid #000; background-color: #d2d2d2; padding: 15px 50px;  margin-bottom: 5px; ">
