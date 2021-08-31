@@ -330,18 +330,22 @@ while ( have_posts() ) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            	<?php $dados_times = []; ?>
-                                                <?php foreach ($results as $result) {
-                                                    $dados_times[$result->user_id] = array(
-                                                        'time_nome' => $result->user_jogo_nickname,
-                                                        'time_imagem' => '',
-                                                        'time_capitao' => $result->user_id,
-                                                    );
-                                                    echo "<tr>";
-                                                    echo "<td>".$result->user_jogo_nickname."</td>";
-                                                    echo "<td>".date('d/m/Y', strtotime($result->usuario_data_inscricao))."</td>";
-                                                    echo "</tr>";
-                                                } ?>
+                                            <?php $dados_times = []; ?>
+                                            <?php $count = 0; ?>
+                                            <?php foreach ($results as $result) {
+                                                $count++;
+                                                $dados_times[$result->user_id] = array(
+                                                    'time_nome' => $result->user_jogo_nickname,
+                                                    'time_imagem' => '',
+                                                    'time_capitao' => $result->user_id,
+                                                );
+                                                echo "<tr>";
+                                                echo "<td>".$count."</td>";
+                                                echo "<td>".$result->user_jogo_nickname."</td>";
+                                                echo "<td>".get_user_meta($result->user_id,'cidade_aabb', true)."</td>";
+                                                echo "<td>".date('d/m/Y', strtotime($result->usuario_data_inscricao))."</td>";
+                                                echo "</tr>";
+                                            } ?>
                                             </tbody>
                                         </table>
 
