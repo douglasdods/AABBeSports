@@ -325,7 +325,9 @@ while ( have_posts() ) {
                                         <table class="table table-inscritos-individual">
                                             <thead class="table-dark">
                                                 <tr>
+                                                    <th>#</th>
                                                     <th>Nickname</th>
+                                                    <th>AABB</th>
                                                     <th>Inscrição</th>
                                                 </tr>
                                             </thead>
