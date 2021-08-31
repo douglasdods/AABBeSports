@@ -2,6 +2,10 @@ $(function (jQuery) {
 
     function load_datatables(){
         $('#user-campeonato-admin').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'excel',
+            ],
             initComplete: function () {
                 this.api().columns().every( function () {
                     var column = this;
@@ -21,16 +25,14 @@ $(function (jQuery) {
                         select.append( '<option value="'+d+'">'+d+'</option>' )
                     } );
                 } );
-            }
+            },
+
         } );
         $('#table-campeonatos').DataTable({});
     }
 
     $(document).ready(function () {
         load_datatables();
-
-
-
 
     });
 })
